@@ -1,3 +1,6 @@
+// Initialize the activeSlot variable with 0
+let activeSlot = 0;
+
 // Load test items from Minecraft JSON file
 fetch('minecraft_items.json')
     .then(response => response.json())
@@ -5,17 +8,20 @@ fetch('minecraft_items.json')
         // Create the inventory grid and item menu
         createInventoryGrid();
         createItemMenu(data);
+        openItemMenu(activeSlot);
 
         // Event listener for slot clicks
         document.querySelector('.inventory-grid').addEventListener('click', (event) => {
             if (event.target.classList.contains('slot')) {
-                openItemMenu(event.target.dataset.slot);
+                activeSlot = event.target.dataset.slot; // Update the active slot
+                openItemMenu(activeSlot);
             }
         });
 
         // Update JSON continuously
         setInterval(generateJSON, 1000); // Update every second
     });
+
 
 function createInventoryGrid() {
     const inventoryGrid = document.querySelector('.inventory-grid');
@@ -56,6 +62,11 @@ function createItemMenu(items) {
     itemMenu.appendChild(itemDropdown);
     itemMenu.appendChild(itemNameInput);
     itemMenu.appendChild(itemFunctionInput);
+
+    // Add event listeners to input elements in the item menu
+    document.querySelector('.item-menu select').addEventListener('change', updateJSON);
+    document.querySelector('.item-menu input[placeholder="Item Name"]').addEventListener('input', updateJSON);
+    document.querySelector('.item-menu input[placeholder="Function (optional)"]').addEventListener('input', updateJSON);
 }
 
 

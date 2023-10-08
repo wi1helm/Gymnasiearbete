@@ -1,5 +1,5 @@
 [
-    {"id": "item1", "name": "Item 1"},
-    {"id": "item2", "name": "Item 2"},
-    {"id": "item3", "name": "Item 3"}
+    {"id": "minecraft:air", "name": "Air"},
+    {"id": "minecraft:stone", "name": "Stone"},
+    {"id": "minecraft:dirt", "name": "Dirt"}
 ]
