@@ -1,17 +1,24 @@
 /* Add your CSS styles for layout here */
+#generator-container {
+    height: 99.8vh;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center; /* Center vertically */
+}
 
-/* Responsive grid layout */
+/* Remove grid layout */
 .inventory-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Three columns */
-    max-width: 600px; /* Maximum width for responsiveness */
-    margin: 0 auto; /* Center align the grid */
+    display: flex;
+    flex-wrap: wrap;
+    max-width: calc(68px * 9);
 }
 
 .slot {
-    width: 100%; /* Make slots responsive */
-    padding: 10px; /* Padding for slot content */
-    background-color: #f0f0f0; /* Fill color for slots */
-    border: 2px solid #000; /* Outline color for slots */
-    cursor: pointer; /* Add cursor pointer on hover */
+    width: 64px;
+    height: 64px;
+    margin: 1px;
+    background-color: #f0f0f0;
+    border: 1px solid #000;
+    cursor: pointer;
 }

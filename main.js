@@ -28,6 +28,7 @@ function createInventoryGrid() {
         }
     }
 }
+    
 
 function createItemMenu(items) {
     const itemMenu = document.querySelector('.item-menu');
