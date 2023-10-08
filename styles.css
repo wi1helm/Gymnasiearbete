@@ -1,0 +1,17 @@
+/* Add your CSS styles for layout here */
+
+/* Responsive grid layout */
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three columns */
+    max-width: 600px; /* Maximum width for responsiveness */
+    margin: 0 auto; /* Center align the grid */
+}
+
+.slot {
+    width: 100%; /* Make slots responsive */
+    padding: 10px; /* Padding for slot content */
+    background-color: #f0f0f0; /* Fill color for slots */
+    border: 2px solid #000; /* Outline color for slots */
+    cursor: pointer; /* Add cursor pointer on hover */
+}

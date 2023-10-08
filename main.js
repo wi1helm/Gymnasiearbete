@@ -13,19 +13,19 @@ fetch('minecraft_items.json')
             }
         });
 
-        // Event listener for Generate JSON button
-        document.getElementById('generate-code').addEventListener('click', () => {
-            generateJSON();
-        });
+        // Update JSON continuously
+        setInterval(generateJSON, 1000); // Update every second
     });
 
 function createInventoryGrid() {
     const inventoryGrid = document.querySelector('.inventory-grid');
-    for (let i = 0; i < 9; i++) {
-        const slot = document.createElement('div');
-        slot.classList.add('slot');
-        slot.dataset.slot = i;
-        inventoryGrid.appendChild(slot);
+    for (let row = 0; row < 3; row++) {
+        for (let column = 0; column < 9; column++) {
+            const slot = document.createElement('div');
+            slot.classList.add('slot');
+            slot.dataset.slot = row * 9 + column; // Calculate slot number
+            inventoryGrid.appendChild(slot);
+        }
     }
 }
 
@@ -59,6 +59,11 @@ function openItemMenu(slot) {
 
 function generateJSON() {
     const jsonOutput = document.getElementById('json-output');
+    jsonOutput.textContent = JSON.stringify(itemSlots, null, 2);
+}
+
+// Function to automatically update JSON whenever an item is changed
+function updateJSON() {
     const activeSlot = document.querySelector('.item-menu').dataset.activeSlot;
     const selectedOption = document.querySelector('.item-menu select').value;
     const itemName = document.querySelector('.item-menu input[placeholder="Item Name"]').value;
@@ -70,8 +75,4 @@ function generateJSON() {
         name: itemName,
         function: itemFunction || undefined,
     };
-
-    // Generate JSON based on itemSlots object
-    const jsonResult = JSON.stringify(itemSlots, null, 2);
-    jsonOutput.textContent = jsonResult;
 }
