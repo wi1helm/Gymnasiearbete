@@ -1,4 +1,4 @@
-/* Add your CSS styles for layout here */
+
 #generator-container {
     height: 99.8vh;
     display: flex;
@@ -7,7 +7,6 @@
     align-items: center; /* Center vertically */
 }
 
-/* Remove grid layout */
 .inventory-grid {
     display: flex;
     flex-wrap: wrap;
@@ -22,3 +21,12 @@
     border: 1px solid #000;
     cursor: pointer;
 }
+
+.item-menu{
+    margin-right: 5%;
+    gap: 2px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+

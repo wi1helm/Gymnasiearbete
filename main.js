@@ -37,7 +37,14 @@ function createItemMenu(items) {
     itemNameInput.placeholder = 'Item Name';
     const itemFunctionInput = document.createElement('input');
     itemFunctionInput.placeholder = 'Function (optional)';
-
+    
+    // Add a label for the active slot
+    const activeSlotLabel = document.createElement('label');
+    activeSlotLabel.textContent = 'Active Slot:';
+    const activeSlotDisplay = document.createElement('span');
+    activeSlotDisplay.id = 'active-slot-display';
+    activeSlotLabel.appendChild(activeSlotDisplay);
+    
     for (const item of items) {
         const option = document.createElement('option');
         option.value = item.id;
@@ -45,17 +52,21 @@ function createItemMenu(items) {
         itemDropdown.appendChild(option);
     }
 
+    itemMenu.appendChild(activeSlotLabel); // Add the active slot label
     itemMenu.appendChild(itemDropdown);
     itemMenu.appendChild(itemNameInput);
     itemMenu.appendChild(itemFunctionInput);
 }
 
+
 const itemSlots = {};
 
 function openItemMenu(slot) {
     const itemMenu = document.querySelector('.item-menu');
+    const activeSlotDisplay = document.getElementById('active-slot-display');
+    
+    activeSlotDisplay.textContent = slot; // Update the active slot display
     itemMenu.dataset.activeSlot = slot;
-    itemMenu.style.display = 'block';
 }
 
 function generateJSON() {
