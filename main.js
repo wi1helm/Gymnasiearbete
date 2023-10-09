@@ -1,5 +1,15 @@
 // Initialize the activeSlot variable with 0
 let activeSlot = 0;
+const jsonOutput = document.getElementById('json-output');
+
+// Initialize an array to store slot-specific settings
+const slotSettings = Array.from({ length: 27 }, () => ({
+    type: 'minecraft:gray_stained_glass_pane', // Default type
+    name: '', // Default name
+    lore: '', // Default lore
+    function: '', // Default function
+    icon: 'gray_stained_glass.png'
+}));
 
 // Load test items from Minecraft JSON file
 fetch('minecraft_items.json')
@@ -12,7 +22,7 @@ fetch('minecraft_items.json')
 
         // Event listener for slot clicks
         document.querySelector('.inventory-grid').addEventListener('click', (event) => {
-            if (event.target.classList.contains('slot')) {
+            if (event.target.classList.contains('item-icon')) {
                 activeSlot = event.target.dataset.slot; // Update the active slot
                 openItemMenu(activeSlot);
             }
@@ -22,7 +32,6 @@ fetch('minecraft_items.json')
         setInterval(generateJSON, 1000); // Update every second
     });
 
-
 function createInventoryGrid() {
     const inventoryGrid = document.querySelector('.inventory-grid');
     for (let row = 0; row < 3; row++) {
@@ -30,11 +39,23 @@ function createInventoryGrid() {
             const slot = document.createElement('div');
             slot.classList.add('slot');
             slot.dataset.slot = row * 9 + column; // Calculate slot number
+
+            // Get the block's icon filename from slotSettings
+            const iconFileName = slotSettings[row * 9 + column].icon;
+
+            // Create an img element for the block icon
+            const icon = document.createElement('img');
+            icon.classList.add('item-icon')
+            icon.src = `item/${iconFileName}`;
+            icon.alt = slotSettings[row * 9 + column].name; // Alt text for accessibility
+            icon.dataset.slot = row * 9 + column; // Associate the icon with a slot
+            // Append the icon to the slot
+            slot.appendChild(icon);
+
             inventoryGrid.appendChild(slot);
         }
     }
 }
-    
 
 function createItemMenu(items) {
     const itemMenu = document.querySelector('.item-menu');
@@ -43,6 +64,8 @@ function createItemMenu(items) {
     itemNameInput.placeholder = 'Item Name';
     const itemFunctionInput = document.createElement('input');
     itemFunctionInput.placeholder = 'Function (optional)';
+    const itemLoreInput = document.createElement('input'); // Add "Lore" input field
+    itemLoreInput.placeholder = 'Lore (optional)';
     
     // Add a label for the active slot
     const activeSlotLabel = document.createElement('label');
@@ -58,19 +81,21 @@ function createItemMenu(items) {
         itemDropdown.appendChild(option);
     }
 
+    // Add event listeners to input elements
+    itemDropdown.addEventListener('change', updateJSON);
+    itemNameInput.addEventListener('input', updateJSON);
+    itemFunctionInput.addEventListener('input', updateJSON);
+    itemLoreInput.addEventListener('input', updateJSON); // Add event listener for "Lore" input
+
     itemMenu.appendChild(activeSlotLabel); // Add the active slot label
     itemMenu.appendChild(itemDropdown);
     itemMenu.appendChild(itemNameInput);
+    itemMenu.appendChild(itemLoreInput); // Add the "Lore" input field to the menu
     itemMenu.appendChild(itemFunctionInput);
-
-    // Add event listeners to input elements in the item menu
-    document.querySelector('.item-menu select').addEventListener('change', updateJSON);
-    document.querySelector('.item-menu input[placeholder="Item Name"]').addEventListener('input', updateJSON);
-    document.querySelector('.item-menu input[placeholder="Function (optional)"]').addEventListener('input', updateJSON);
+    
+    // Load initial settings for the active slot
+    loadItemSettings(activeSlot);
 }
-
-
-const itemSlots = {};
 
 function openItemMenu(slot) {
     const itemMenu = document.querySelector('.item-menu');
@@ -78,24 +103,85 @@ function openItemMenu(slot) {
     
     activeSlotDisplay.textContent = slot; // Update the active slot display
     itemMenu.dataset.activeSlot = slot;
+    
+    // Load settings for the active slot
+    loadItemSettings(slot);
+}
+
+function loadItemSettings(slot) {
+    const selectedItem = slotSettings[slot];
+    document.querySelector('.item-menu select').value = selectedItem.type;
+    document.querySelector('.item-menu input[placeholder="Item Name"]').value = selectedItem.name;
+    document.querySelector('.item-menu input[placeholder="Lore (optional)"]').value = selectedItem.lore;
+    document.querySelector('.item-menu input[placeholder="Function (optional)"]').value = selectedItem.function;
 }
 
 function generateJSON() {
     const jsonOutput = document.getElementById('json-output');
-    jsonOutput.textContent = JSON.stringify(itemSlots, null, 2);
+    
+    const formattedSlots = slotSettings.map((settings, index) => {
+        const item = {
+            id: settings.type,
+            // Add more properties as needed
+        };
+        const name = {
+            text: settings.name || '',
+            color: 'white',
+        };
+        const lore = {
+            text: settings.lore || '',
+            color: 'white',
+        };
+        const func = settings.function || '';
+
+        const icon = settings.icon || ''
+        return {
+            [`slot:${index}`]: {
+                Item: item,
+                Name: name,
+                Lore: lore,
+                Function: func,
+                Icon: icon,
+            },
+        };
+    });
+
+    const jsonResult = JSON.stringify({ slots: formattedSlots }, null, 2);
+    jsonOutput.textContent = jsonResult;
 }
 
-// Function to automatically update JSON whenever an item is changed
+
+// Function to automatically update settings for the active slot
 function updateJSON() {
     const activeSlot = document.querySelector('.item-menu').dataset.activeSlot;
     const selectedOption = document.querySelector('.item-menu select').value;
     const itemName = document.querySelector('.item-menu input[placeholder="Item Name"]').value;
     const itemFunction = document.querySelector('.item-menu input[placeholder="Function (optional)"]').value;
+    const itemLore = document.querySelector('.item-menu input[placeholder="Lore (optional)"]').value;
 
-    // Save the selected item details to the itemSlots object
-    itemSlots[activeSlot] = {
+    // Update the icon for the active slot in slotSettings
+    slotSettings[activeSlot].icon = selectedOption.replace('minecraft:', '') + '.png';
+
+    // Update other settings for the active slot
+    slotSettings[activeSlot] = {
         type: selectedOption,
         name: itemName,
-        function: itemFunction || undefined,
+        lore: itemLore || '',
+        function: itemFunction || '',
+        icon: slotSettings[activeSlot].icon, // Set the icon
     };
+
+    // Update the displayed icon for the active slot
+    updateIconDisplay(activeSlot, slotSettings[activeSlot].icon);
 }
+
+// Function to update the displayed icon for the active slot
+function updateIconDisplay(activeSlot, iconFileName) {
+    // Find the img element with the corresponding data-slot attribute
+    const iconElement = document.querySelector(`img[data-slot="${activeSlot}"]`);
+    if (iconElement) {
+        iconElement.src = `item/${iconFileName}`;
+        iconElement.alt = ''; // You can set an appropriate alt text here if needed
+    }
+}
+

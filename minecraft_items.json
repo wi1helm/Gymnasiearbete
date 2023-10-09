@@ -1,5 +1,7 @@
 [
     {"id": "minecraft:air", "name": "Air"},
     {"id": "minecraft:stone", "name": "Stone"},
-    {"id": "minecraft:dirt", "name": "Dirt"}
+    {"id": "minecraft:dirt", "name": "Dirt"},
+    {"id": "minecraft:gray_stained_glass_pane", "name": "Grey Stained Glass Pane"},
+    {"id": "minecraft:beef", "name": "Beef"}
 ]
