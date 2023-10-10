@@ -1,6 +1,7 @@
 // Initialize the activeSlot variable with 0
 let activeSlot = 0;
 const jsonOutput = document.getElementById('json-output');
+const inventoryGrid = document.querySelector('.inventory-grid'); // Add this line
 
 // Initialize an array to store slot-specific settings
 const slotSettings = Array.from({ length: 27 }, () => ({
@@ -8,7 +9,7 @@ const slotSettings = Array.from({ length: 27 }, () => ({
     name: '', // Default name
     lore: '', // Default lore
     function: '', // Default function
-    icon: 'gray_stained_glass.png'
+    icon: 'gray_stained_glass_pane.png'
 }));
 
 // Load test items from Minecraft JSON file
@@ -18,11 +19,12 @@ fetch('minecraft_items.json')
         // Create the inventory grid and item menu
         createInventoryGrid();
         createItemMenu(data);
+        createItemList(data);
         openItemMenu(activeSlot);
 
         // Event listener for slot clicks
         document.querySelector('.inventory-grid').addEventListener('click', (event) => {
-            if (event.target.classList.contains('item-icon')) {
+            if (event.target.classList.contains('item-icon-chest')) {
                 activeSlot = event.target.dataset.slot; // Update the active slot
                 openItemMenu(activeSlot);
             }
@@ -45,7 +47,7 @@ function createInventoryGrid() {
 
             // Create an img element for the block icon
             const icon = document.createElement('img');
-            icon.classList.add('item-icon')
+            icon.classList.add('item-icon-chest')
             icon.src = `item/${iconFileName}`;
             icon.alt = slotSettings[row * 9 + column].name; // Alt text for accessibility
             icon.dataset.slot = row * 9 + column; // Associate the icon with a slot
@@ -60,10 +62,12 @@ function createInventoryGrid() {
 function createItemMenu(items) {
     const itemMenu = document.querySelector('.item-menu');
     const itemDropdown = document.createElement('select');
-    const itemNameInput = document.createElement('input');
-    itemNameInput.placeholder = 'Item Name';
     const itemFunctionInput = document.createElement('input');
     itemFunctionInput.placeholder = 'Function (optional)';
+
+
+    const itemNameInput = document.createElement('input');
+    itemNameInput.placeholder = 'Item Name';
     const itemLoreInput = document.createElement('input'); // Add "Lore" input field
     itemLoreInput.placeholder = 'Lore (optional)';
     
@@ -119,35 +123,37 @@ function loadItemSettings(slot) {
 function generateJSON() {
     const jsonOutput = document.getElementById('json-output');
     
-    const formattedSlots = slotSettings.map((settings, index) => {
-        const item = {
-            id: settings.type,
-            // Add more properties as needed
-        };
-        const name = {
-            text: settings.name || '',
-            color: 'white',
-        };
-        const lore = {
-            text: settings.lore || '',
-            color: 'white',
-        };
-        const func = settings.function || '';
+    if (jsonOutput) {
+        const formattedSlots = slotSettings.map((settings, index) => {
+            const item = {
+                id: settings.type,
+                // Add more properties as needed
+            };
+            const name = {
+                text: settings.name || '',
+                color: 'white',
+            };
+            const lore = {
+                text: settings.lore || '',
+                color: 'white',
+            };
+            const func = settings.function || '';
 
-        const icon = settings.icon || ''
-        return {
-            [`slot:${index}`]: {
-                Item: item,
-                Name: name,
-                Lore: lore,
-                Function: func,
-                Icon: icon,
-            },
-        };
-    });
+            const icon = settings.icon || ''
+            return {
+                [`slot:${index}`]: {
+                    Item: item,
+                    Name: name,
+                    Lore: lore,
+                    Function: func,
+                    Icon: icon,
+                },
+            };
+        });
 
-    const jsonResult = JSON.stringify({ slots: formattedSlots }, null, 2);
-    jsonOutput.textContent = jsonResult;
+        const jsonResult = JSON.stringify({ slots: formattedSlots }, null, 2);
+        jsonOutput.textContent = jsonResult;
+    }
 }
 
 
@@ -184,4 +190,71 @@ function updateIconDisplay(activeSlot, iconFileName) {
         iconElement.alt = ''; // You can set an appropriate alt text here if needed
     }
 }
+
+
+// Function to create a list of all items that can be dragged
+function createItemList(items) {
+    const itemList = document.querySelector('.item-list');
+
+    for (const item of items) {
+        const itemContainer = document.createElement('div');
+        itemContainer.classList.add('item-container');
+
+        const itemIcon = document.createElement('img');
+        itemIcon.classList.add('item-icon-list');
+        itemIcon.src = `item/${item.id.replace('minecraft:', '')}.png`; // Use the item's ID as the icon filename
+        itemIcon.draggable = true;
+        itemIcon.dataset.type = item.id; // Store the item type in the dataset
+        itemIcon.alt = item.name; // Alt text for accessibility
+
+        itemContainer.appendChild(itemIcon);
+        itemList.appendChild(itemContainer);
+    }
+}
+
+// Event listener for item drag start
+document.addEventListener('dragstart', (event) => {
+    if (event.target.classList.contains('item-icon-list')) {
+        event.dataTransfer.setData('text/plain', event.target.dataset.type);
+    } else {
+        // Prevent dragging for icons with the class 'item-icon-chest'
+        event.preventDefault();
+    }
+});
+
+// Event listener for inventory slot drag over
+inventoryGrid.addEventListener('dragover', (event) => {
+    // Prevent the default behavior to allow dropping
+    event.preventDefault();
+});
+
+// Event listener for inventory slot drop
+inventoryGrid.addEventListener('drop', (event) => {
+    // Prevent the default behavior to allow dropping
+    event.preventDefault();
+    // Get the item type from the data transfer
+    const itemType = event.dataTransfer.getData('text/plain');
+
+    // Get the target slot where the item was dropped
+    const targetSlot = event.target.dataset.slot;
+
+    // Update the slotSettings for the target slot
+    slotSettings[targetSlot].type = itemType;
+
+    // Update the icon for the target slot
+    const targetIcon = document.querySelector(`img[data-slot="${targetSlot}"]`);
+    targetIcon.src = `item/${itemType.replace('minecraft:', '')}.png`;
+
+    // Generate JSON to reflect the changes
+    generateJSON();
+});
+
+
+
+
+
+
+
+
+
 

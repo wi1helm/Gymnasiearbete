@@ -1,12 +1,30 @@
 
+
 #generator-container {
     height: 99.8vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#chest-container {
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
     align-items: center; /* Center vertically */
 }
-
+#item-container {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+.item-list{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-right: 30px;
+}
 .inventory-grid {
     display: flex;
     flex-wrap: wrap;
@@ -28,7 +46,12 @@
     align-items: center;
 }
 
-.item-icon{
+.item-icon-chest{
+    image-rendering: pixelated;
+    height: 60px;
+    width: 60px;
+}
+.item-icon-list{
     image-rendering: pixelated;
     height: 60px;
     width: 60px;
@@ -40,5 +63,6 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
+    max-width: 15%;
 }
 
