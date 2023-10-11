@@ -122,7 +122,7 @@ function loadItemSettings(slot) {
 
 function generateJSON() {
     const jsonOutput = document.getElementById('json-output');
-    
+
     if (jsonOutput) {
         const formattedSlots = slotSettings.map((settings, index) => {
             const item = {
@@ -139,14 +139,20 @@ function generateJSON() {
             };
             const func = settings.function || '';
 
-            const icon = settings.icon || ''
+            const icon = settings.icon || '';
+            
+            // Update the icon for the active slot in slotSettings
+            if (settings.type) {
+                settings.icon = settings.type.replace('minecraft:', '') + '.png';
+            }
+            
             return {
                 [`slot:${index}`]: {
                     Item: item,
                     Name: name,
                     Lore: lore,
                     Function: func,
-                    Icon: icon,
+                    Icon: settings.icon,
                 },
             };
         });
@@ -155,6 +161,7 @@ function generateJSON() {
         jsonOutput.textContent = jsonResult;
     }
 }
+
 
 
 // Function to automatically update settings for the active slot

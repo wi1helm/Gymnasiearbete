@@ -1,7 +1,1746 @@
 [
-    {"id": "minecraft:air", "name": "Air"},
-    {"id": "minecraft:stone", "name": "Stone"},
-    {"id": "minecraft:dirt", "name": "Dirt"},
-    {"id": "minecraft:gray_stained_glass_pane", "name": "Grey Stained Glass Pane"},
-    {"id": "minecraft:beef", "name": "Beef"}
+    {
+        "id": "minecraft:acacia_boat",
+        "name": "Acacia Boat"
+    },
+    {
+        "id": "minecraft:acacia_chest_boat",
+        "name": "Acacia Chest Boat"
+    },
+    {
+        "id": "minecraft:acacia_door",
+        "name": "Acacia Door"
+    },
+    {
+        "id": "minecraft:acacia_hanging_sign",
+        "name": "Acacia Hanging Sign"
+    },
+    {
+        "id": "minecraft:acacia_sign",
+        "name": "Acacia Sign"
+    },
+    {
+        "id": "minecraft:air",
+        "name": "Air"
+    },
+    {
+        "id": "minecraft:amethyst_shard",
+        "name": "Amethyst Shard"
+    },
+    {
+        "id": "minecraft:angler_pottery_sherd",
+        "name": "Angler Pottery Sherd"
+    },
+    {
+        "id": "minecraft:apple",
+        "name": "Apple"
+    },
+    {
+        "id": "minecraft:archer_pottery_sherd",
+        "name": "Archer Pottery Sherd"
+    },
+    {
+        "id": "minecraft:armor_stand",
+        "name": "Armor Stand"
+    },
+    {
+        "id": "minecraft:arms_up_pottery_sherd",
+        "name": "Arms Up Pottery Sherd"
+    },
+    {
+        "id": "minecraft:arrow",
+        "name": "Arrow"
+    },
+    {
+        "id": "minecraft:axolotl_bucket",
+        "name": "Axolotl Bucket"
+    },
+    {
+        "id": "minecraft:baked_potato",
+        "name": "Baked Potato"
+    },
+    {
+        "id": "minecraft:bamboo",
+        "name": "Bamboo"
+    },
+    {
+        "id": "minecraft:bamboo_chest_raft",
+        "name": "Bamboo Chest Raft"
+    },
+    {
+        "id": "minecraft:bamboo_door",
+        "name": "Bamboo Door"
+    },
+    {
+        "id": "minecraft:bamboo_hanging_sign",
+        "name": "Bamboo Hanging Sign"
+    },
+    {
+        "id": "minecraft:bamboo_raft",
+        "name": "Bamboo Raft"
+    },
+    {
+        "id": "minecraft:bamboo_sign",
+        "name": "Bamboo Sign"
+    },
+    {
+        "id": "minecraft:barrier",
+        "name": "Barrier"
+    },
+    {
+        "id": "minecraft:beef",
+        "name": "Beef"
+    },
+    {
+        "id": "minecraft:beetroot",
+        "name": "Beetroot"
+    },
+    {
+        "id": "minecraft:beetroot_seeds",
+        "name": "Beetroot Seeds"
+    },
+    {
+        "id": "minecraft:beetroot_soup",
+        "name": "Beetroot Soup"
+    },
+    {
+        "id": "minecraft:bell",
+        "name": "Bell"
+    },
+    {
+        "id": "minecraft:birch_boat",
+        "name": "Birch Boat"
+    },
+    {
+        "id": "minecraft:birch_chest_boat",
+        "name": "Birch Chest Boat"
+    },
+    {
+        "id": "minecraft:birch_door",
+        "name": "Birch Door"
+    },
+    {
+        "id": "minecraft:birch_hanging_sign",
+        "name": "Birch Hanging Sign"
+    },
+    {
+        "id": "minecraft:birch_sign",
+        "name": "Birch Sign"
+    },
+    {
+        "id": "minecraft:black_candle",
+        "name": "Black Candle"
+    },
+    {
+        "id": "minecraft:black_dye",
+        "name": "Black Dye"
+    },
+    {
+        "id": "minecraft:black_stained_glass",
+        "name": "Black Stained Glass"
+    },
+    {
+        "id": "minecraft:blade_pottery_sherd",
+        "name": "Blade Pottery Sherd"
+    },
+    {
+        "id": "minecraft:blaze_powder",
+        "name": "Blaze Powder"
+    },
+    {
+        "id": "minecraft:blaze_rod",
+        "name": "Blaze Rod"
+    },
+    {
+        "id": "minecraft:blue_candle",
+        "name": "Blue Candle"
+    },
+    {
+        "id": "minecraft:blue_dye",
+        "name": "Blue Dye"
+    },
+    {
+        "id": "minecraft:blue_stained_glass",
+        "name": "Blue Stained Glass"
+    },
+    {
+        "id": "minecraft:bone",
+        "name": "Bone"
+    },
+    {
+        "id": "minecraft:bone_meal",
+        "name": "Bone Meal"
+    },
+    {
+        "id": "minecraft:book",
+        "name": "Book"
+    },
+    {
+        "id": "minecraft:bow",
+        "name": "Bow"
+    },
+    {
+        "id": "minecraft:bowl",
+        "name": "Bowl"
+    },
+    {
+        "id": "minecraft:bread",
+        "name": "Bread"
+    },
+    {
+        "id": "minecraft:brewer_pottery_sherd",
+        "name": "Brewer Pottery Sherd"
+    },
+    {
+        "id": "minecraft:brewing_stand",
+        "name": "Brewing Stand"
+    },
+    {
+        "id": "minecraft:brick",
+        "name": "Brick"
+    },
+    {
+        "id": "minecraft:broken_elytra",
+        "name": "Broken Elytra"
+    },
+    {
+        "id": "minecraft:brown_candle",
+        "name": "Brown Candle"
+    },
+    {
+        "id": "minecraft:brown_dye",
+        "name": "Brown Dye"
+    },
+    {
+        "id": "minecraft:brown_stained_glass",
+        "name": "Brown Stained Glass"
+    },
+    {
+        "id": "minecraft:brush",
+        "name": "Brush"
+    },
+    {
+        "id": "minecraft:bucket",
+        "name": "Bucket"
+    },
+    {
+        "id": "minecraft:bundle",
+        "name": "Bundle"
+    },
+    {
+        "id": "minecraft:bundle_filled",
+        "name": "Bundle Filled"
+    },
+    {
+        "id": "minecraft:burn_pottery_sherd",
+        "name": "Burn Pottery Sherd"
+    },
+    {
+        "id": "minecraft:cake",
+        "name": "Cake"
+    },
+    {
+        "id": "minecraft:campfire",
+        "name": "Campfire"
+    },
+    {
+        "id": "minecraft:candle",
+        "name": "Candle"
+    },
+    {
+        "id": "minecraft:carrot",
+        "name": "Carrot"
+    },
+    {
+        "id": "minecraft:carrot_on_a_stick",
+        "name": "Carrot On A Stick"
+    },
+    {
+        "id": "minecraft:cauldron",
+        "name": "Cauldron"
+    },
+    {
+        "id": "minecraft:chain",
+        "name": "Chain"
+    },
+    {
+        "id": "minecraft:chainmail_boots",
+        "name": "Chainmail Boots"
+    },
+    {
+        "id": "minecraft:chainmail_chestplate",
+        "name": "Chainmail Chestplate"
+    },
+    {
+        "id": "minecraft:chainmail_helmet",
+        "name": "Chainmail Helmet"
+    },
+    {
+        "id": "minecraft:chainmail_leggings",
+        "name": "Chainmail Leggings"
+    },
+    {
+        "id": "minecraft:charcoal",
+        "name": "Charcoal"
+    },
+    {
+        "id": "minecraft:cherry_boat",
+        "name": "Cherry Boat"
+    },
+    {
+        "id": "minecraft:cherry_chest_boat",
+        "name": "Cherry Chest Boat"
+    },
+    {
+        "id": "minecraft:cherry_door",
+        "name": "Cherry Door"
+    },
+    {
+        "id": "minecraft:cherry_hanging_sign",
+        "name": "Cherry Hanging Sign"
+    },
+    {
+        "id": "minecraft:cherry_sign",
+        "name": "Cherry Sign"
+    },
+    {
+        "id": "minecraft:chest_minecart",
+        "name": "Chest Minecart"
+    },
+    {
+        "id": "minecraft:chicken",
+        "name": "Chicken"
+    },
+    {
+        "id": "minecraft:chorus_fruit",
+        "name": "Chorus Fruit"
+    },
+    {
+        "id": "minecraft:clay_ball",
+        "name": "Clay Ball"
+    },
+    {
+        "id": "minecraft:clock_00",
+        "name": "Clock 00"
+    },
+    {
+        "id": "minecraft:coal",
+        "name": "Coal"
+    },
+    {
+        "id": "minecraft:coast_armor_trim_smithing_template",
+        "name": "Coast Armor Trim Smithing Template"
+    },
+    {
+        "id": "minecraft:cocoa_beans",
+        "name": "Cocoa Beans"
+    },
+    {
+        "id": "minecraft:cod",
+        "name": "Cod"
+    },
+    {
+        "id": "minecraft:cod_bucket",
+        "name": "Cod Bucket"
+    },
+    {
+        "id": "minecraft:comparator",
+        "name": "Comparator"
+    },
+    {
+        "id": "minecraft:compass_00",
+        "name": "Compass 00"
+    },
+    {
+        "id": "minecraft:cooked_beef",
+        "name": "Cooked Beef"
+    },
+    {
+        "id": "minecraft:cooked_chicken",
+        "name": "Cooked Chicken"
+    },
+    {
+        "id": "minecraft:cooked_cod",
+        "name": "Cooked Cod"
+    },
+    {
+        "id": "minecraft:cooked_mutton",
+        "name": "Cooked Mutton"
+    },
+    {
+        "id": "minecraft:cooked_porkchop",
+        "name": "Cooked Porkchop"
+    },
+    {
+        "id": "minecraft:cooked_rabbit",
+        "name": "Cooked Rabbit"
+    },
+    {
+        "id": "minecraft:cooked_salmon",
+        "name": "Cooked Salmon"
+    },
+    {
+        "id": "minecraft:cookie",
+        "name": "Cookie"
+    },
+    {
+        "id": "minecraft:copper_ingot",
+        "name": "Copper Ingot"
+    },
+    {
+        "id": "minecraft:creeper_banner_pattern",
+        "name": "Creeper Banner Pattern"
+    },
+    {
+        "id": "minecraft:crimson_door",
+        "name": "Crimson Door"
+    },
+    {
+        "id": "minecraft:crimson_hanging_sign",
+        "name": "Crimson Hanging Sign"
+    },
+    {
+        "id": "minecraft:crimson_sign",
+        "name": "Crimson Sign"
+    },
+    {
+        "id": "minecraft:crossbow_arrow",
+        "name": "Crossbow Arrow"
+    },
+    {
+        "id": "minecraft:cyan_candle",
+        "name": "Cyan Candle"
+    },
+    {
+        "id": "minecraft:cyan_dye",
+        "name": "Cyan Dye"
+    },
+    {
+        "id": "minecraft:cyan_stained_glass",
+        "name": "Cyan Stained Glass"
+    },
+    {
+        "id": "minecraft:danger_pottery_sherd",
+        "name": "Danger Pottery Sherd"
+    },
+    {
+        "id": "minecraft:dark_oak_boat",
+        "name": "Dark Oak Boat"
+    },
+    {
+        "id": "minecraft:dark_oak_chest_boat",
+        "name": "Dark Oak Chest Boat"
+    },
+    {
+        "id": "minecraft:dark_oak_door",
+        "name": "Dark Oak Door"
+    },
+    {
+        "id": "minecraft:dark_oak_hanging_sign",
+        "name": "Dark Oak Hanging Sign"
+    },
+    {
+        "id": "minecraft:dark_oak_sign",
+        "name": "Dark Oak Sign"
+    },
+    {
+        "id": "minecraft:diamond",
+        "name": "Diamond"
+    },
+    {
+        "id": "minecraft:diamond_axe",
+        "name": "Diamond Axe"
+    },
+    {
+        "id": "minecraft:diamond_boots",
+        "name": "Diamond Boots"
+    },
+    {
+        "id": "minecraft:diamond_chestplate",
+        "name": "Diamond Chestplate"
+    },
+    {
+        "id": "minecraft:diamond_helmet",
+        "name": "Diamond Helmet"
+    },
+    {
+        "id": "minecraft:diamond_hoe",
+        "name": "Diamond Hoe"
+    },
+    {
+        "id": "minecraft:diamond_horse_armor",
+        "name": "Diamond Horse Armor"
+    },
+    {
+        "id": "minecraft:diamond_leggings",
+        "name": "Diamond Leggings"
+    },
+    {
+        "id": "minecraft:diamond_pickaxe",
+        "name": "Diamond Pickaxe"
+    },
+    {
+        "id": "minecraft:diamond_shovel",
+        "name": "Diamond Shovel"
+    },
+    {
+        "id": "minecraft:diamond_sword",
+        "name": "Diamond Sword"
+    },
+    {
+        "id": "minecraft:dirt",
+        "name": "Dirt"
+    },
+    {
+        "id": "minecraft:disc_fragment_5",
+        "name": "Disc Fragment 5"
+    },
+    {
+        "id": "minecraft:dragon_breath",
+        "name": "Dragon Breath"
+    },
+    {
+        "id": "minecraft:dried_kelp",
+        "name": "Dried Kelp"
+    },
+    {
+        "id": "minecraft:dune_armor_trim_smithing_template",
+        "name": "Dune Armor Trim Smithing Template"
+    },
+    {
+        "id": "minecraft:echo_shard",
+        "name": "Echo Shard"
+    },
+    {
+        "id": "minecraft:egg",
+        "name": "Egg"
+    },
+    {
+        "id": "minecraft:elytra",
+        "name": "Elytra"
+    },
+    {
+        "id": "minecraft:emerald",
+        "name": "Emerald"
+    },
+    {
+        "id": "minecraft:enchanted_book",
+        "name": "Enchanted Book"
+    },
+    {
+        "id": "minecraft:ender_eye",
+        "name": "Ender Eye"
+    },
+    {
+        "id": "minecraft:ender_pearl",
+        "name": "Ender Pearl"
+    },
+    {
+        "id": "minecraft:end_crystal",
+        "name": "End Crystal"
+    },
+    {
+        "id": "minecraft:experience_bottle",
+        "name": "Experience Bottle"
+    },
+    {
+        "id": "minecraft:explorer_pottery_sherd",
+        "name": "Explorer Pottery Sherd"
+    },
+    {
+        "id": "minecraft:eye_armor_trim_smithing_template",
+        "name": "Eye Armor Trim Smithing Template"
+    },
+    {
+        "id": "minecraft:feather",
+        "name": "Feather"
+    },
+    {
+        "id": "minecraft:fermented_spider_eye",
+        "name": "Fermented Spider Eye"
+    },
+    {
+        "id": "minecraft:filled_map",
+        "name": "Filled Map"
+    },
+    {
+        "id": "minecraft:filled_map_markings",
+        "name": "Filled Map Markings"
+    },
+    {
+        "id": "minecraft:firework_rocket",
+        "name": "Firework Rocket"
+    },
+    {
+        "id": "minecraft:firework_star",
+        "name": "Firework Star"
+    },
+    {
+        "id": "minecraft:firework_star_overlay",
+        "name": "Firework Star Overlay"
+    },
+    {
+        "id": "minecraft:fire_charge",
+        "name": "Fire Charge"
+    },
+    {
+        "id": "minecraft:fishing_rod",
+        "name": "Fishing Rod"
+    },
+    {
+        "id": "minecraft:fishing_rod_cast",
+        "name": "Fishing Rod Cast"
+    },
+    {
+        "id": "minecraft:flint",
+        "name": "Flint"
+    },
+    {
+        "id": "minecraft:flint_and_steel",
+        "name": "Flint And Steel"
+    },
+    {
+        "id": "minecraft:flower_banner_pattern",
+        "name": "Flower Banner Pattern"
+    },
+    {
+        "id": "minecraft:flower_pot",
+        "name": "Flower Pot"
+    },
+    {
+        "id": "minecraft:friend_pottery_sherd",
+        "name": "Friend Pottery Sherd"
+    },
+    {
+        "id": "minecraft:furnace_minecart",
+        "name": "Furnace Minecart"
+    },
+    {
+        "id": "minecraft:ghast_tear",
+        "name": "Ghast Tear"
+    },
+    {
+        "id": "minecraft:glass",
+        "name": "Glass"
+    },
+    {
+        "id": "minecraft:glass_bottle",
+        "name": "Glass Bottle"
+    },
+    {
+        "id": "minecraft:glistering_melon_slice",
+        "name": "Glistering Melon Slice"
+    },
+    {
+        "id": "minecraft:globe_banner_pattern",
+        "name": "Globe Banner Pattern"
+    },
+    {
+        "id": "minecraft:glowstone_dust",
+        "name": "Glowstone Dust"
+    },
+    {
+        "id": "minecraft:glow_berries",
+        "name": "Glow Berries"
+    },
+    {
+        "id": "minecraft:glow_ink_sac",
+        "name": "Glow Ink Sac"
+    },
+    {
+        "id": "minecraft:glow_item_frame",
+        "name": "Glow Item Frame"
+    },
+    {
+        "id": "minecraft:goat_horn",
+        "name": "Goat Horn"
+    },
+    {
+        "id": "minecraft:golden_apple",
+        "name": "Golden Apple"
+    },
+    {
+        "id": "minecraft:golden_axe",
+        "name": "Golden Axe"
+    },
+    {
+        "id": "minecraft:golden_boots",
+        "name": "Golden Boots"
+    },
+    {
+        "id": "minecraft:golden_carrot",
+        "name": "Golden Carrot"
+    },
+    {
+        "id": "minecraft:golden_chestplate",
+        "name": "Golden Chestplate"
+    },
+    {
+        "id": "minecraft:golden_helmet",
+        "name": "Golden Helmet"
+    },
+    {
+        "id": "minecraft:golden_hoe",
+        "name": "Golden Hoe"
+    },
+    {
+        "id": "minecraft:golden_horse_armor",
+        "name": "Golden Horse Armor"
+    },
+    {
+        "id": "minecraft:golden_leggings",
+        "name": "Golden Leggings"
+    },
+    {
+        "id": "minecraft:golden_pickaxe",
+        "name": "Golden Pickaxe"
+    },
+    {
+        "id": "minecraft:golden_shovel",
+        "name": "Golden Shovel"
+    },
+    {
+        "id": "minecraft:golden_sword",
+        "name": "Golden Sword"
+    },
+    {
+        "id": "minecraft:gold_ingot",
+        "name": "Gold Ingot"
+    },
+    {
+        "id": "minecraft:gold_nugget",
+        "name": "Gold Nugget"
+    },
+    {
+        "id": "minecraft:gray_candle",
+        "name": "Gray Candle"
+    },
+    {
+        "id": "minecraft:gray_dye",
+        "name": "Gray Dye"
+    },
+    {
+        "id": "minecraft:gray_stained_glass_pane",
+        "name": "Gray Stained Glass Pane"
+    },
+    {
+        "id": "minecraft:green_candle",
+        "name": "Green Candle"
+    },
+    {
+        "id": "minecraft:green_dye",
+        "name": "Green Dye"
+    },
+    {
+        "id": "minecraft:green_stained_glass",
+        "name": "Green Stained Glass"
+    },
+    {
+        "id": "minecraft:gunpowder",
+        "name": "Gunpowder"
+    },
+    {
+        "id": "minecraft:heartbreak_pottery_sherd",
+        "name": "Heartbreak Pottery Sherd"
+    },
+    {
+        "id": "minecraft:heart_of_the_sea",
+        "name": "Heart Of The Sea"
+    },
+    {
+        "id": "minecraft:heart_pottery_sherd",
+        "name": "Heart Pottery Sherd"
+    },
+    {
+        "id": "minecraft:honeycomb",
+        "name": "Honeycomb"
+    },
+    {
+        "id": "minecraft:honey_bottle",
+        "name": "Honey Bottle"
+    },
+    {
+        "id": "minecraft:hopper",
+        "name": "Hopper"
+    },
+    {
+        "id": "minecraft:hopper_minecart",
+        "name": "Hopper Minecart"
+    },
+    {
+        "id": "minecraft:host_armor_trim_smithing_template",
+        "name": "Host Armor Trim Smithing Template"
+    },
+    {
+        "id": "minecraft:howl_pottery_sherd",
+        "name": "Howl Pottery Sherd"
+    },
+    {
+        "id": "minecraft:ink_sac",
+        "name": "Ink Sac"
+    },
+    {
+        "id": "minecraft:iron_axe",
+        "name": "Iron Axe"
+    },
+    {
+        "id": "minecraft:iron_boots",
+        "name": "Iron Boots"
+    },
+    {
+        "id": "minecraft:iron_chestplate",
+        "name": "Iron Chestplate"
+    },
+    {
+        "id": "minecraft:iron_door",
+        "name": "Iron Door"
+    },
+    {
+        "id": "minecraft:iron_helmet",
+        "name": "Iron Helmet"
+    },
+    {
+        "id": "minecraft:iron_hoe",
+        "name": "Iron Hoe"
+    },
+    {
+        "id": "minecraft:iron_horse_armor",
+        "name": "Iron Horse Armor"
+    },
+    {
+        "id": "minecraft:iron_ingot",
+        "name": "Iron Ingot"
+    },
+    {
+        "id": "minecraft:iron_leggings",
+        "name": "Iron Leggings"
+    },
+    {
+        "id": "minecraft:iron_nugget",
+        "name": "Iron Nugget"
+    },
+    {
+        "id": "minecraft:iron_pickaxe",
+        "name": "Iron Pickaxe"
+    },
+    {
+        "id": "minecraft:iron_shovel",
+        "name": "Iron Shovel"
+    },
+    {
+        "id": "minecraft:iron_sword",
+        "name": "Iron Sword"
+    },
+    {
+        "id": "minecraft:item_frame",
+        "name": "Item Frame"
+    },
+    {
+        "id": "minecraft:jungle_boat",
+        "name": "Jungle Boat"
+    },
+    {
+        "id": "minecraft:jungle_chest_boat",
+        "name": "Jungle Chest Boat"
+    },
+    {
+        "id": "minecraft:jungle_door",
+        "name": "Jungle Door"
+    },
+    {
+        "id": "minecraft:jungle_hanging_sign",
+        "name": "Jungle Hanging Sign"
+    },
+    {
+        "id": "minecraft:jungle_sign",
+        "name": "Jungle Sign"
+    },
+    {
+        "id": "minecraft:kelp",
+        "name": "Kelp"
+    },
+    {
+        "id": "minecraft:knowledge_book",
+        "name": "Knowledge Book"
+    },
+    {
+        "id": "minecraft:lantern",
+        "name": "Lantern"
+    },
+    {
+        "id": "minecraft:lapis_lazuli",
+        "name": "Lapis Lazuli"
+    },
+    {
+        "id": "minecraft:lava_bucket",
+        "name": "Lava Bucket"
+    },
+    {
+        "id": "minecraft:lead",
+        "name": "Lead"
+    },
+    {
+        "id": "minecraft:leather",
+        "name": "Leather"
+    },
+    {
+        "id": "minecraft:leather_boots",
+        "name": "Leather Boots"
+    },
+    {
+        "id": "minecraft:leather_boots_overlay",
+        "name": "Leather Boots Overlay"
+    },
+    {
+        "id": "minecraft:leather_chestplate",
+        "name": "Leather Chestplate"
+    },
+    {
+        "id": "minecraft:leather_chestplate_overlay",
+        "name": "Leather Chestplate Overlay"
+    },
+    {
+        "id": "minecraft:leather_helmet",
+        "name": "Leather Helmet"
+    },
+    {
+        "id": "minecraft:leather_helmet_overlay",
+        "name": "Leather Helmet Overlay"
+    },
+    {
+        "id": "minecraft:leather_horse_armor",
+        "name": "Leather Horse Armor"
+    },
+    {
+        "id": "minecraft:leather_leggings",
+        "name": "Leather Leggings"
+    },
+    {
+        "id": "minecraft:leather_leggings_overlay",
+        "name": "Leather Leggings Overlay"
+    },
+    {
+        "id": "minecraft:light",
+        "name": "Light"
+    },
+    {
+        "id": "minecraft:light_00",
+        "name": "Light 00"
+    },
+    {
+        "id": "minecraft:light_blue_candle",
+        "name": "Light Blue Candle"
+    },
+    {
+        "id": "minecraft:light_blue_dye",
+        "name": "Light Blue Dye"
+    },
+    {
+        "id": "minecraft:light_blue_stained_glass",
+        "name": "Light Blue Stained Glass"
+    },
+    {
+        "id": "minecraft:light_gray_candle",
+        "name": "Light Gray Candle"
+    },
+    {
+        "id": "minecraft:light_gray_dye",
+        "name": "Light Gray Dye"
+    },
+    {
+        "id": "minecraft:light_gray_stained_glass",
+        "name": "Light Gray Stained Glass"
+    },
+    {
+        "id": "minecraft:lime_candle",
+        "name": "Lime Candle"
+    },
+    {
+        "id": "minecraft:lime_dye",
+        "name": "Lime Dye"
+    },
+    {
+        "id": "minecraft:lime_stained_glass",
+        "name": "Lime Stained Glass"
+    },
+    {
+        "id": "minecraft:lingering_potion",
+        "name": "Lingering Potion"
+    },
+    {
+        "id": "minecraft:magenta_candle",
+        "name": "Magenta Candle"
+    },
+    {
+        "id": "minecraft:magenta_dye",
+        "name": "Magenta Dye"
+    },
+    {
+        "id": "minecraft:magenta_stained_glass",
+        "name": "Magenta Stained Glass"
+    },
+    {
+        "id": "minecraft:magma_cream",
+        "name": "Magma Cream"
+    },
+    {
+        "id": "minecraft:mangrove_boat",
+        "name": "Mangrove Boat"
+    },
+    {
+        "id": "minecraft:mangrove_chest_boat",
+        "name": "Mangrove Chest Boat"
+    },
+    {
+        "id": "minecraft:mangrove_door",
+        "name": "Mangrove Door"
+    },
+    {
+        "id": "minecraft:mangrove_hanging_sign",
+        "name": "Mangrove Hanging Sign"
+    },
+    {
+        "id": "minecraft:mangrove_propagule",
+        "name": "Mangrove Propagule"
+    },
+    {
+        "id": "minecraft:mangrove_sign",
+        "name": "Mangrove Sign"
+    },
+    {
+        "id": "minecraft:map",
+        "name": "Map"
+    },
+    {
+        "id": "minecraft:melon_seeds",
+        "name": "Melon Seeds"
+    },
+    {
+        "id": "minecraft:melon_slice",
+        "name": "Melon Slice"
+    },
+    {
+        "id": "minecraft:milk_bucket",
+        "name": "Milk Bucket"
+    },
+    {
+        "id": "minecraft:minecart",
+        "name": "Minecart"
+    },
+    {
+        "id": "minecraft:miner_pottery_sherd",
+        "name": "Miner Pottery Sherd"
+    },
+    {
+        "id": "minecraft:mojang_banner_pattern",
+        "name": "Mojang Banner Pattern"
+    },
+    {
+        "id": "minecraft:mourner_pottery_sherd",
+        "name": "Mourner Pottery Sherd"
+    },
+    {
+        "id": "minecraft:mushroom_stew",
+        "name": "Mushroom Stew"
+    },
+    {
+        "id": "minecraft:music_disc_11",
+        "name": "Music Disc 11"
+    },
+    {
+        "id": "minecraft:music_disc_13",
+        "name": "Music Disc 13"
+    },
+    {
+        "id": "minecraft:music_disc_5",
+        "name": "Music Disc 5"
+    },
+    {
+        "id": "minecraft:music_disc_blocks",
+        "name": "Music Disc Blocks"
+    },
+    {
+        "id": "minecraft:music_disc_cat",
+        "name": "Music Disc Cat"
+    },
+    {
+        "id": "minecraft:music_disc_chirp",
+        "name": "Music Disc Chirp"
+    },
+    {
+        "id": "minecraft:music_disc_far",
+        "name": "Music Disc Far"
+    },
+    {
+        "id": "minecraft:music_disc_mall",
+        "name": "Music Disc Mall"
+    },
+    {
+        "id": "minecraft:music_disc_mellohi",
+        "name": "Music Disc Mellohi"
+    },
+    {
+        "id": "minecraft:music_disc_otherside",
+        "name": "Music Disc Otherside"
+    },
+    {
+        "id": "minecraft:music_disc_pigstep",
+        "name": "Music Disc Pigstep"
+    },
+    {
+        "id": "minecraft:music_disc_relic",
+        "name": "Music Disc Relic"
+    },
+    {
+        "id": "minecraft:music_disc_stal",
+        "name": "Music Disc Stal"
+    },
+    {
+        "id": "minecraft:music_disc_strad",
+        "name": "Music Disc Strad"
+    },
+    {
+        "id": "minecraft:music_disc_wait",
+        "name": "Music Disc Wait"
+    },
+    {
+        "id": "minecraft:music_disc_ward",
+        "name": "Music Disc Ward"
+    },
+    {
+        "id": "minecraft:mutton",
+        "name": "Mutton"
+    },
+    {
+        "id": "minecraft:name_tag",
+        "name": "Name Tag"
+    },
+    {
+        "id": "minecraft:nautilus_shell",
+        "name": "Nautilus Shell"
+    },
+    {
+        "id": "minecraft:netherite_axe",
+        "name": "Netherite Axe"
+    },
+    {
+        "id": "minecraft:netherite_boots",
+        "name": "Netherite Boots"
+    },
+    {
+        "id": "minecraft:netherite_chestplate",
+        "name": "Netherite Chestplate"
+    },
+    {
+        "id": "minecraft:netherite_helmet",
+        "name": "Netherite Helmet"
+    },
+    {
+        "id": "minecraft:netherite_hoe",
+        "name": "Netherite Hoe"
+    },
+    {
+        "id": "minecraft:netherite_ingot",
+        "name": "Netherite Ingot"
+    },
+    {
+        "id": "minecraft:netherite_leggings",
+        "name": "Netherite Leggings"
+    },
+    {
+        "id": "minecraft:netherite_pickaxe",
+        "name": "Netherite Pickaxe"
+    },
+    {
+        "id": "minecraft:netherite_scrap",
+        "name": "Netherite Scrap"
+    },
+    {
+        "id": "minecraft:netherite_shovel",
+        "name": "Netherite Shovel"
+    },
+    {
+        "id": "minecraft:netherite_sword",
+        "name": "Netherite Sword"
+    },
+    {
+        "id": "minecraft:netherite_upgrade_smithing_template",
+        "name": "Netherite Upgrade Smithing Template"
+    },
+    {
+        "id": "minecraft:nether_brick",
+        "name": "Nether Brick"
+    },
+    {
+        "id": "minecraft:nether_sprouts",
+        "name": "Nether Sprouts"
+    },
+    {
+        "id": "minecraft:nether_star",
+        "name": "Nether Star"
+    },
+    {
+        "id": "minecraft:nether_wart",
+        "name": "Nether Wart"
+    },
+    {
+        "id": "minecraft:oak_boat",
+        "name": "Oak Boat"
+    },
+    {
+        "id": "minecraft:oak_chest_boat",
+        "name": "Oak Chest Boat"
+    },
+    {
+        "id": "minecraft:oak_door",
+        "name": "Oak Door"
+    },
+    {
+        "id": "minecraft:oak_hanging_sign",
+        "name": "Oak Hanging Sign"
+    },
+    {
+        "id": "minecraft:oak_sign",
+        "name": "Oak Sign"
+    },
+    {
+        "id": "minecraft:orange_candle",
+        "name": "Orange Candle"
+    },
+    {
+        "id": "minecraft:orange_dye",
+        "name": "Orange Dye"
+    },
+    {
+        "id": "minecraft:orange_stained_glass",
+        "name": "Orange Stained Glass"
+    },
+    {
+        "id": "minecraft:painting",
+        "name": "Painting"
+    },
+    {
+        "id": "minecraft:paper",
+        "name": "Paper"
+    },
+    {
+        "id": "minecraft:phantom_membrane",
+        "name": "Phantom Membrane"
+    },
+    {
+        "id": "minecraft:piglin_banner_pattern",
+        "name": "Piglin Banner Pattern"
+    },
+    {
+        "id": "minecraft:pink_candle",
+        "name": "Pink Candle"
+    },
+    {
+        "id": "minecraft:pink_dye",
+        "name": "Pink Dye"
+    },
+    {
+        "id": "minecraft:pink_petals",
+        "name": "Pink Petals"
+    },
+    {
+        "id": "minecraft:pink_stained_glass",
+        "name": "Pink Stained Glass"
+    },
+    {
+        "id": "minecraft:pitcher_plant",
+        "name": "Pitcher Plant"
+    },
+    {
+        "id": "minecraft:pitcher_pod",
+        "name": "Pitcher Pod"
+    },
+    {
+        "id": "minecraft:plenty_pottery_sherd",
+        "name": "Plenty Pottery Sherd"
+    },
+    {
+        "id": "minecraft:pointed_dripstone",
+        "name": "Pointed Dripstone"
+    },
+    {
+        "id": "minecraft:poisonous_potato",
+        "name": "Poisonous Potato"
+    },
+    {
+        "id": "minecraft:popped_chorus_fruit",
+        "name": "Popped Chorus Fruit"
+    },
+    {
+        "id": "minecraft:porkchop",
+        "name": "Porkchop"
+    },
+    {
+        "id": "minecraft:potato",
+        "name": "Potato"
+    },
+    {
+        "id": "minecraft:potion",
+        "name": "Potion"
+    },
+    {
+        "id": "minecraft:potion_overlay",
+        "name": "Potion Overlay"
+    },
+    {
+        "id": "minecraft:powder_snow_bucket",
+        "name": "Powder Snow Bucket"
+    },
+    {
+        "id": "minecraft:prismarine_crystals",
+        "name": "Prismarine Crystals"
+    },
+    {
+        "id": "minecraft:prismarine_shard",
+        "name": "Prismarine Shard"
+    },
+    {
+        "id": "minecraft:prize_pottery_sherd",
+        "name": "Prize Pottery Sherd"
+    },
+    {
+        "id": "minecraft:pufferfish",
+        "name": "Pufferfish"
+    },
+    {
+        "id": "minecraft:pufferfish_bucket",
+        "name": "Pufferfish Bucket"
+    },
+    {
+        "id": "minecraft:pumpkin_pie",
+        "name": "Pumpkin Pie"
+    },
+    {
+        "id": "minecraft:pumpkin_seeds",
+        "name": "Pumpkin Seeds"
+    },
+    {
+        "id": "minecraft:purple_candle",
+        "name": "Purple Candle"
+    },
+    {
+        "id": "minecraft:purple_dye",
+        "name": "Purple Dye"
+    },
+    {
+        "id": "minecraft:purple_stained_glass",
+        "name": "Purple Stained Glass"
+    },
+    {
+        "id": "minecraft:quartz",
+        "name": "Quartz"
+    },
+    {
+        "id": "minecraft:rabbit",
+        "name": "Rabbit"
+    },
+    {
+        "id": "minecraft:rabbit_foot",
+        "name": "Rabbit Foot"
+    },
+    {
+        "id": "minecraft:rabbit_hide",
+        "name": "Rabbit Hide"
+    },
+    {
+        "id": "minecraft:rabbit_stew",
+        "name": "Rabbit Stew"
+    },
+    {
+        "id": "minecraft:raiser_armor_trim_smithing_template",
+        "name": "Raiser Armor Trim Smithing Template"
+    },
+    {
+        "id": "minecraft:raw_copper",
+        "name": "Raw Copper"
+    },
+    {
+        "id": "minecraft:raw_gold",
+        "name": "Raw Gold"
+    },
+    {
+        "id": "minecraft:raw_iron",
+        "name": "Raw Iron"
+    },
+    {
+        "id": "minecraft:recovery_compass_00",
+        "name": "Recovery Compass 00"
+    },
+    {
+        "id": "minecraft:redstone",
+        "name": "Redstone"
+    },
+    {
+        "id": "minecraft:red_candle",
+        "name": "Red Candle"
+    },
+    {
+        "id": "minecraft:red_dye",
+        "name": "Red Dye"
+    },
+    {
+        "id": "minecraft:red_stained_glass",
+        "name": "Red Stained Glass"
+    },
+    {
+        "id": "minecraft:repeater",
+        "name": "Repeater"
+    },
+    {
+        "id": "minecraft:rib_armor_trim_smithing_template",
+        "name": "Rib Armor Trim Smithing Template"
+    },
+    {
+        "id": "minecraft:rotten_flesh",
+        "name": "Rotten Flesh"
+    },
+    {
+        "id": "minecraft:saddle",
+        "name": "Saddle"
+    },
+    {
+        "id": "minecraft:salmon",
+        "name": "Salmon"
+    },
+    {
+        "id": "minecraft:salmon_bucket",
+        "name": "Salmon Bucket"
+    },
+    {
+        "id": "minecraft:scute",
+        "name": "Scute"
+    },
+    {
+        "id": "minecraft:seagrass",
+        "name": "Seagrass"
+    },
+    {
+        "id": "minecraft:sea_pickle",
+        "name": "Sea Pickle"
+    },
+    {
+        "id": "minecraft:sentry_armor_trim_smithing_template",
+        "name": "Sentry Armor Trim Smithing Template"
+    },
+    {
+        "id": "minecraft:shaper_armor_trim_smithing_template",
+        "name": "Shaper Armor Trim Smithing Template"
+    },
+    {
+        "id": "minecraft:sheaf_pottery_sherd",
+        "name": "Sheaf Pottery Sherd"
+    },
+    {
+        "id": "minecraft:shears",
+        "name": "Shears"
+    },
+    {
+        "id": "minecraft:shelter_pottery_sherd",
+        "name": "Shelter Pottery Sherd"
+    },
+    {
+        "id": "minecraft:shulker_shell",
+        "name": "Shulker Shell"
+    },
+    {
+        "id": "minecraft:silence_armor_trim_smithing_template",
+        "name": "Silence Armor Trim Smithing Template"
+    },
+    {
+        "id": "minecraft:skull_banner_pattern",
+        "name": "Skull Banner Pattern"
+    },
+    {
+        "id": "minecraft:skull_pottery_sherd",
+        "name": "Skull Pottery Sherd"
+    },
+    {
+        "id": "minecraft:slime_ball",
+        "name": "Slime Ball"
+    },
+    {
+        "id": "minecraft:sniffer_egg",
+        "name": "Sniffer Egg"
+    },
+    {
+        "id": "minecraft:snort_pottery_sherd",
+        "name": "Snort Pottery Sherd"
+    },
+    {
+        "id": "minecraft:snout_armor_trim_smithing_template",
+        "name": "Snout Armor Trim Smithing Template"
+    },
+    {
+        "id": "minecraft:snowball",
+        "name": "Snowball"
+    },
+    {
+        "id": "minecraft:soul_campfire",
+        "name": "Soul Campfire"
+    },
+    {
+        "id": "minecraft:soul_lantern",
+        "name": "Soul Lantern"
+    },
+    {
+        "id": "minecraft:spawn_egg",
+        "name": "Spawn Egg"
+    },
+    {
+        "id": "minecraft:spawn_egg_overlay",
+        "name": "Spawn Egg Overlay"
+    },
+    {
+        "id": "minecraft:spectral_arrow",
+        "name": "Spectral Arrow"
+    },
+    {
+        "id": "minecraft:spider_eye",
+        "name": "Spider Eye"
+    },
+    {
+        "id": "minecraft:spire_armor_trim_smithing_template",
+        "name": "Spire Armor Trim Smithing Template"
+    },
+    {
+        "id": "minecraft:splash_potion",
+        "name": "Splash Potion"
+    },
+    {
+        "id": "minecraft:spruce_boat",
+        "name": "Spruce Boat"
+    },
+    {
+        "id": "minecraft:spruce_chest_boat",
+        "name": "Spruce Chest Boat"
+    },
+    {
+        "id": "minecraft:spruce_door",
+        "name": "Spruce Door"
+    },
+    {
+        "id": "minecraft:spruce_hanging_sign",
+        "name": "Spruce Hanging Sign"
+    },
+    {
+        "id": "minecraft:spruce_sign",
+        "name": "Spruce Sign"
+    },
+    {
+        "id": "minecraft:spyglass",
+        "name": "Spyglass"
+    },
+    {
+        "id": "minecraft:spyglass_model",
+        "name": "Spyglass Model"
+    },
+    {
+        "id": "minecraft:stick",
+        "name": "Stick"
+    },
+    {
+        "id": "minecraft:stone",
+        "name": "Stone"
+    },
+    {
+        "id": "minecraft:stone_axe",
+        "name": "Stone Axe"
+    },
+    {
+        "id": "minecraft:stone_hoe",
+        "name": "Stone Hoe"
+    },
+    {
+        "id": "minecraft:stone_pickaxe",
+        "name": "Stone Pickaxe"
+    },
+    {
+        "id": "minecraft:stone_shovel",
+        "name": "Stone Shovel"
+    },
+    {
+        "id": "minecraft:stone_sword",
+        "name": "Stone Sword"
+    },
+    {
+        "id": "minecraft:string",
+        "name": "String"
+    },
+    {
+        "id": "minecraft:structure_void",
+        "name": "Structure Void"
+    },
+    {
+        "id": "minecraft:sugar",
+        "name": "Sugar"
+    },
+    {
+        "id": "minecraft:sugar_cane",
+        "name": "Sugar Cane"
+    },
+    {
+        "id": "minecraft:suspicious_stew",
+        "name": "Suspicious Stew"
+    },
+    {
+        "id": "minecraft:sweet_berries",
+        "name": "Sweet Berries"
+    },
+    {
+        "id": "minecraft:tadpole_bucket",
+        "name": "Tadpole Bucket"
+    },
+    {
+        "id": "minecraft:tide_armor_trim_smithing_template",
+        "name": "Tide Armor Trim Smithing Template"
+    },
+    {
+        "id": "minecraft:tinted_glass",
+        "name": "Tinted Glass"
+    },
+    {
+        "id": "minecraft:tipped_arrow_base",
+        "name": "Tipped Arrow Base"
+    },
+    {
+        "id": "minecraft:tipped_arrow_head",
+        "name": "Tipped Arrow Head"
+    },
+    {
+        "id": "minecraft:tnt_minecart",
+        "name": "Tnt Minecart"
+    },
+    {
+        "id": "minecraft:torchflower_seeds",
+        "name": "Torchflower Seeds"
+    },
+    {
+        "id": "minecraft:totem_of_undying",
+        "name": "Totem Of Undying"
+    },
+    {
+        "id": "minecraft:trident",
+        "name": "Trident"
+    },
+    {
+        "id": "minecraft:tropical_fish",
+        "name": "Tropical Fish"
+    },
+    {
+        "id": "minecraft:tropical_fish_bucket",
+        "name": "Tropical Fish Bucket"
+    },
+    {
+        "id": "minecraft:turtle_egg",
+        "name": "Turtle Egg"
+    },
+    {
+        "id": "minecraft:turtle_helmet",
+        "name": "Turtle Helmet"
+    },
+    {
+        "id": "minecraft:vex_armor_trim_smithing_template",
+        "name": "Vex Armor Trim Smithing Template"
+    },
+    {
+        "id": "minecraft:ward_armor_trim_smithing_template",
+        "name": "Ward Armor Trim Smithing Template"
+    },
+    {
+        "id": "minecraft:warped_door",
+        "name": "Warped Door"
+    },
+    {
+        "id": "minecraft:warped_fungus_on_a_stick",
+        "name": "Warped Fungus On A Stick"
+    },
+    {
+        "id": "minecraft:warped_hanging_sign",
+        "name": "Warped Hanging Sign"
+    },
+    {
+        "id": "minecraft:warped_sign",
+        "name": "Warped Sign"
+    },
+    {
+        "id": "minecraft:water_bucket",
+        "name": "Water Bucket"
+    },
+    {
+        "id": "minecraft:wayfinder_armor_trim_smithing_template",
+        "name": "Wayfinder Armor Trim Smithing Template"
+    },
+    {
+        "id": "minecraft:wheat",
+        "name": "Wheat"
+    },
+    {
+        "id": "minecraft:wheat_seeds",
+        "name": "Wheat Seeds"
+    },
+    {
+        "id": "minecraft:white_candle",
+        "name": "White Candle"
+    },
+    {
+        "id": "minecraft:white_dye",
+        "name": "White Dye"
+    },
+    {
+        "id": "minecraft:white_stained_glass",
+        "name": "White Stained Glass"
+    },
+    {
+        "id": "minecraft:white_stained_glass_pane_top",
+        "name": "White Stained Glass Pane Top"
+    },
+    {
+        "id": "minecraft:wild_armor_trim_smithing_template",
+        "name": "Wild Armor Trim Smithing Template"
+    },
+    {
+        "id": "minecraft:wooden_axe",
+        "name": "Wooden Axe"
+    },
+    {
+        "id": "minecraft:wooden_hoe",
+        "name": "Wooden Hoe"
+    },
+    {
+        "id": "minecraft:wooden_pickaxe",
+        "name": "Wooden Pickaxe"
+    },
+    {
+        "id": "minecraft:wooden_shovel",
+        "name": "Wooden Shovel"
+    },
+    {
+        "id": "minecraft:wooden_sword",
+        "name": "Wooden Sword"
+    },
+    {
+        "id": "minecraft:writable_book",
+        "name": "Writable Book"
+    },
+    {
+        "id": "minecraft:written_book",
+        "name": "Written Book"
+    },
+    {
+        "id": "minecraft:yellow_candle",
+        "name": "Yellow Candle"
+    },
+    {
+        "id": "minecraft:yellow_dye",
+        "name": "Yellow Dye"
+    },
+    {
+        "id": "minecraft:yellow_stained_glass",
+        "name": "Yellow Stained Glass"
+    }
 ]
