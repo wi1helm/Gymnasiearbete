@@ -10,7 +10,7 @@ const slotSettings = Array.from({ length: 27 }, () => ({
     lore: '', // Default lore
     function: '', // Default function
     icon: 'gray_stained_glass_pane.png'
-}));
+})); 
 
 // Load test items from Minecraft JSON file
 fetch('minecraft_items.json')
@@ -199,11 +199,14 @@ function updateIconDisplay(activeSlot, iconFileName) {
 }
 
 
-// Function to create a list of all items that can be dragged
-function createItemList(items) {
+// Function to create a list of items that can be dragged (limit to 10 items)
+function createItemList(items, startIndex = 0) {
     const itemList = document.querySelector('.item-list');
 
-    for (const item of items) {
+    // Begränsa loopen till högst 10 objekt eller så många objekt som finns kvar
+    for (let i = startIndex; i < Math.min(startIndex + 10, items.length); i++) {
+        const item = items[i];
+
         const itemContainer = document.createElement('div');
         itemContainer.classList.add('item-container');
 
@@ -218,6 +221,7 @@ function createItemList(items) {
         itemList.appendChild(itemContainer);
     }
 }
+
 
 // Event listener for item drag start
 document.addEventListener('dragstart', (event) => {

@@ -16,6 +16,8 @@
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
+    max-height: 200px; /* Justera max höjd enligt dina preferenser */
+    overflow-y: auto;
 }
 .item-list{
     display: flex;
@@ -69,4 +71,16 @@
 
 #json-output{
     max-height: 10%;
+}
+
+.item-menu {
+    max-width: 400px; /* Justera max bredd enligt dina preferenser */
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 400px;
+}
+
+#search-input {
+    width: 5%;
+    box-sizing: border-box;
 }
