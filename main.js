@@ -1,8 +1,9 @@
 // Initialize the activeSlot variable with 0
-// Initialize the activeSlot variable with 0
 let activeSlot = 0;
 const jsonOutput = document.getElementById('json-output');
 const inventoryGrid = document.querySelector('.inventory-grid');
+let jsonData = {}; // To store the JSON data
+
 
 // Initialize an array to store all items
 let allItems = [];
@@ -173,6 +174,7 @@ function generateJSON() {
 
     const jsonResult = JSON.stringify({ slots: formattedSlots }, null, 2);
     console.log(jsonResult);
+    jsonData = { slots: formattedSlots };
 }
 
 
