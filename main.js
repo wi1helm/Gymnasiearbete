@@ -1,37 +1,31 @@
 // Initialize the activeSlot variable with 0
+// Initialize the activeSlot variable with 0
 let activeSlot = 0;
 const jsonOutput = document.getElementById('json-output');
-const inventoryGrid = document.querySelector('.inventory-grid'); // Add this line
+const inventoryGrid = document.querySelector('.inventory-grid');
+
+// Initialize an array to store all items
+let allItems = [];
 
 // Initialize an array to store slot-specific settings
 const slotSettings = Array.from({ length: 27 }, () => ({
-    type: 'minecraft:gray_stained_glass_pane', // Default type
-    name: '', // Default name
-    lore: '', // Default lore
-    function: '', // Default function
-    icon: 'gray_stained_glass_pane.png'
-})); 
+    type: 'minecraft:gray_stained_glass_pane',
+    name: '',
+    lore: '',
+    function: '',
+    icon: 'gray_stained_glass_pane.png',
+}));
 
 // Load test items from Minecraft JSON file
 fetch('minecraft_items.json')
-    .then(response => response.json())
-    .then(data => {
-        // Create the inventory grid and item menu
+    .then((response) => response.json())
+    .then((data) => {
+        allItems = data; // Store all items
         createInventoryGrid();
-        createItemMenu(data);
-        createItemList(data);
+        createItemMenu(allItems);
+        createItemList(allItems);
         openItemMenu(activeSlot);
-
-        // Event listener for slot clicks
-        document.querySelector('.inventory-grid').addEventListener('click', (event) => {
-            if (event.target.classList.contains('item-icon-chest')) {
-                activeSlot = event.target.dataset.slot; // Update the active slot
-                openItemMenu(activeSlot);
-            }
-        });
-
-        // Update JSON continuously
-        setInterval(generateJSON, 1000); // Update every second
+        setInterval(generateJSON, 1000);
     });
 
 function createInventoryGrid() {
@@ -59,16 +53,24 @@ function createInventoryGrid() {
     }
 }
 
+// Event listener for slot clicks
+document.querySelector('.inventory-grid').addEventListener('click', (event) => {
+    if (event.target.classList.contains('item-icon-chest')) {
+        activeSlot = event.target.dataset.slot; // Update the active slot
+        openItemMenu(activeSlot);
+    }
+});
+
+
 function createItemMenu(items) {
-    const itemMenu = document.querySelector('.item-menu');
+    const itemMenu = document.querySelector('.item-settings');
     const itemDropdown = document.createElement('select');
     const itemFunctionInput = document.createElement('input');
     itemFunctionInput.placeholder = 'Function (optional)';
 
-
     const itemNameInput = document.createElement('input');
     itemNameInput.placeholder = 'Item Name';
-    const itemLoreInput = document.createElement('input'); // Add "Lore" input field
+    const itemLoreInput = document.createElement('input');
     itemLoreInput.placeholder = 'Lore (optional)';
     
     // Add a label for the active slot
@@ -97,12 +99,20 @@ function createItemMenu(items) {
     itemMenu.appendChild(itemLoreInput); // Add the "Lore" input field to the menu
     itemMenu.appendChild(itemFunctionInput);
     
+    // Add the event listener for the search input
+    const searchInput = document.getElementById('search-input');
+    searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredItems = filterItems(items, searchTerm);
+        createItemList(filteredItems);
+    });
+
     // Load initial settings for the active slot
     loadItemSettings(activeSlot);
 }
 
 function openItemMenu(slot) {
-    const itemMenu = document.querySelector('.item-menu');
+    const itemMenu = document.querySelector('.item-settings');
     const activeSlotDisplay = document.getElementById('active-slot-display');
     
     activeSlotDisplay.textContent = slot; // Update the active slot display
@@ -112,65 +122,68 @@ function openItemMenu(slot) {
     loadItemSettings(slot);
 }
 
+function filterItems(items, searchTerm) {
+    return items.filter((item) => {
+        const itemName = item.name.toLowerCase();
+        return itemName.includes(searchTerm);
+    });
+}
+
 function loadItemSettings(slot) {
     const selectedItem = slotSettings[slot];
-    document.querySelector('.item-menu select').value = selectedItem.type;
-    document.querySelector('.item-menu input[placeholder="Item Name"]').value = selectedItem.name;
-    document.querySelector('.item-menu input[placeholder="Lore (optional)"]').value = selectedItem.lore;
-    document.querySelector('.item-menu input[placeholder="Function (optional)"]').value = selectedItem.function;
+    document.querySelector('.item-settings select').value = selectedItem.type;
+    document.querySelector('.item-settings input[placeholder="Item Name"]').value = selectedItem.name;
+    document.querySelector('.item-settings input[placeholder="Lore (optional)"]').value = selectedItem.lore;
+    document.querySelector('.item-settings input[placeholder="Function (optional)"]').value = selectedItem.function;
 }
 
 function generateJSON() {
-    const jsonOutput = document.getElementById('json-output');
+    const formattedSlots = slotSettings.map((settings, index) => {
+        const item = {
+            id: settings.type,
+            // Add more properties as needed
+        };
+        const name = {
+            text: settings.name || '',
+            color: 'white',
+        };
+        const lore = {
+            text: settings.lore || '',
+            color: 'white',
+        };
+        const func = settings.function || '';
 
-    if (jsonOutput) {
-        const formattedSlots = slotSettings.map((settings, index) => {
-            const item = {
-                id: settings.type,
-                // Add more properties as needed
-            };
-            const name = {
-                text: settings.name || '',
-                color: 'white',
-            };
-            const lore = {
-                text: settings.lore || '',
-                color: 'white',
-            };
-            const func = settings.function || '';
+        const icon = settings.icon || '';
+        
+        // Update the icon for the active slot in slotSettings
+        if (settings.type) {
+            settings.icon = settings.type.replace('minecraft:', '') + '.png';
+        }
+        
+        return {
+            [`slot:${index}`]: {
+                Item: item,
+                Name: name,
+                Lore: lore,
+                Function: func,
+                Icon: settings.icon,
+            },
+        };
+    });
 
-            const icon = settings.icon || '';
-            
-            // Update the icon for the active slot in slotSettings
-            if (settings.type) {
-                settings.icon = settings.type.replace('minecraft:', '') + '.png';
-            }
-            
-            return {
-                [`slot:${index}`]: {
-                    Item: item,
-                    Name: name,
-                    Lore: lore,
-                    Function: func,
-                    Icon: settings.icon,
-                },
-            };
-        });
-
-        const jsonResult = JSON.stringify({ slots: formattedSlots }, null, 2);
-        jsonOutput.textContent = jsonResult;
-    }
+    const jsonResult = JSON.stringify({ slots: formattedSlots }, null, 2);
+    console.log(jsonResult);
 }
 
 
 
 // Function to automatically update settings for the active slot
 function updateJSON() {
-    const activeSlot = document.querySelector('.item-menu').dataset.activeSlot;
-    const selectedOption = document.querySelector('.item-menu select').value;
-    const itemName = document.querySelector('.item-menu input[placeholder="Item Name"]').value;
-    const itemFunction = document.querySelector('.item-menu input[placeholder="Function (optional)"]').value;
-    const itemLore = document.querySelector('.item-menu input[placeholder="Lore (optional)"]').value;
+    const activeSlot = document.querySelector('.item-settings').dataset.activeSlot;
+    const selectedOption = document.querySelector('.item-settings select').value;
+    const itemName = document.querySelector('.item-settings input[placeholder="Item Name"]').value;
+    const itemFunction = document.querySelector('.item-settings input[placeholder="Function (optional)"]').value;
+    const itemLore = document.querySelector('.item-settings input[placeholder="Lore (optional)"]').value;
 
     // Update the icon for the active slot in slotSettings
     slotSettings[activeSlot].icon = selectedOption.replace('minecraft:', '') + '.png';
@@ -200,11 +213,16 @@ function updateIconDisplay(activeSlot, iconFileName) {
 
 
 // Function to create a list of items that can be dragged (limit to 10 items)
-function createItemList(items, startIndex = 0) {
+function createItemList(items) {
     const itemList = document.querySelector('.item-list');
+    
+    // Clear the existing item list
+    itemList.innerHTML = '';
 
-    // Begränsa loopen till högst 10 objekt eller så många objekt som finns kvar
-    for (let i = startIndex; i < Math.min(startIndex + 10, items.length); i++) {
+    // Determine how many items to display (up to a maximum of 10)
+    const numItemsToDisplay = Math.min(11, items.length);
+
+    for (let i = 0; i < numItemsToDisplay; i++) {
         const item = items[i];
 
         const itemContainer = document.createElement('div');
@@ -212,15 +230,17 @@ function createItemList(items, startIndex = 0) {
 
         const itemIcon = document.createElement('img');
         itemIcon.classList.add('item-icon-list');
-        itemIcon.src = `item/${item.id.replace('minecraft:', '')}.png`; // Use the item's ID as the icon filename
+        itemIcon.src = `item/${item.id.replace('minecraft:', '')}.png`;
         itemIcon.draggable = true;
-        itemIcon.dataset.type = item.id; // Store the item type in the dataset
-        itemIcon.alt = item.name; // Alt text for accessibility
+        itemIcon.dataset.type = item.id;
+        itemIcon.alt = item.name;
 
         itemContainer.appendChild(itemIcon);
         itemList.appendChild(itemContainer);
     }
 }
+
+
 
 
 // Event listener for item drag start
