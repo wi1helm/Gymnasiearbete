@@ -212,33 +212,50 @@ function updateIconDisplay(activeSlot, iconFileName) {
 }
 
 
-// Function to create a list of items that can be dragged (limit to 10 items)
 function createItemList(items) {
     const itemList = document.querySelector('.item-list');
-    
+    const itemListContainer = document.querySelector('.item-list-container');
+
+    // Store the current scroll position
+    const scrollPosition = itemListContainer.scrollTop;
+
     // Clear the existing item list
     itemList.innerHTML = '';
 
     // Determine how many items to display (up to a maximum of 10)
-    const numItemsToDisplay = Math.min(11, items.length);
+    const numItemsToDisplay = Math.min(10, items.length);
 
-    for (let i = 0; i < numItemsToDisplay; i++) {
-        const item = items[i];
-
+    for (let i = 0; i < 10; i++) {
         const itemContainer = document.createElement('div');
         itemContainer.classList.add('item-container');
 
-        const itemIcon = document.createElement('img');
-        itemIcon.classList.add('item-icon-list');
-        itemIcon.src = `item/${item.id.replace('minecraft:', '')}.png`;
-        itemIcon.draggable = true;
-        itemIcon.dataset.type = item.id;
-        itemIcon.alt = item.name;
+        if (i < numItemsToDisplay) {
+            const item = items[i];
+            const itemIcon = document.createElement('img');
+            itemIcon.classList.add('item-icon-list');
+            itemIcon.src = `item/${item.id.replace('minecraft:', '')}.png`;
+            itemIcon.draggable = true;
+            itemIcon.dataset.type = item.id;
+            itemIcon.alt = item.name;
+            itemContainer.appendChild(itemIcon);
+        } else {
+            const itemIcon = document.createElement('img');
+            itemIcon.classList.add('item-icon-list');
+            itemIcon.src = `item/placeholder.png`;
+            itemIcon.draggable = false;
+            itemIcon.dataset.type = "Unknown";
+            itemIcon.alt = "placeholder";
+            itemContainer.appendChild(itemIcon);
+        }
 
-        itemContainer.appendChild(itemIcon);
         itemList.appendChild(itemContainer);
     }
+
+    // Reset the scroll position to the top
+    itemListContainer.scrollTop = scrollPosition;
 }
+
+
 
 
 
@@ -279,6 +296,43 @@ inventoryGrid.addEventListener('drop', (event) => {
     // Generate JSON to reflect the changes
     generateJSON();
 });
+
+
+const inventorygrid = document.querySelector('.inventory-grid');
+const itemTooltip = document.getElementById('item-tooltip');
+const itemName = document.getElementById('item-name');
+const itemLore = document.getElementById('item-lore');
+const itemId = document.getElementById('item-id');
+
+// Event listener for mouseover on inventory grid items
+inventorygrid.addEventListener('mouseover', (event) => {
+    const target = event.target;
+    if (target.classList.contains('item-icon-chest')) {
+        const slot = target.dataset.slot;
+
+        // Retrieve item information from slotSettings
+        const selectedItem = slotSettings[slot];
+
+        // Populate the tooltip content
+        itemName.textContent = `Name: ${selectedItem.name}`;
+        itemLore.textContent = `Lore: ${selectedItem.lore}`;
+        itemId.textContent = `Item ID: ${selectedItem.type}`;
+        
+        // Position the tooltip near the mouse cursor
+        itemTooltip.style.left = (event.clientX + 60) + 'px';
+        itemTooltip.style.top = (event.clientY + 60) + 'px';
+
+        // Show the tooltip
+        itemTooltip.classList.add('show');
+    }
+});
+
+// Event listener for mouseout on inventory grid items
+inventoryGrid.addEventListener('mouseout', () => {
+    // Hide the tooltip when the mouse leaves the item
+    itemTooltip.classList.remove('show');
+});
+
 
 
 

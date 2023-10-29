@@ -9,7 +9,6 @@
 <body>
     <div id="generator-container">
         <div id="item-container">
-            <input id="search-input" type="text" placeholder="Search items">
             <div class="item-settings">
                 <!-- Här kommer dina item-container-element att genereras dynamiskt -->
             </div>
@@ -18,14 +17,24 @@
             <div class="inventory-grid">
                 <!-- Inventory grid will be generated here using JavaScript -->
             </div>
-            
-            <div class="item-list">
-                <!-- List of all items will be generated here using JavaScript -->
+            <div id="search-container">
+                <input id="search-input" type="text" placeholder="Search items">
+                <div class="item-list-container">
+                    <div class="item-list">
+                        <!-- List of all items will be generated here using JavaScript -->
+                    </div>
+                </div>
             </div>
-        
-            
         </div>
     </div>
+    <div class="tooltip" id="item-tooltip">
+        <div class="tooltip-content">
+            <div id="item-name"></div>
+            <div id="item-lore"></div>
+            <div id="item-id"></div>
+        </div>
+    </div>
+    
     <script src="main.js"></script>
 </body>
 </html>

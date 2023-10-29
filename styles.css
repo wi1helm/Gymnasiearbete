@@ -1,7 +1,7 @@
 
 
 #generator-container {
-    height: 99.8vh;
+    height: 98vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -22,17 +22,15 @@
 .inventory-grid {
     display: flex;
     flex-wrap: wrap;
-    max-width: calc(68px * 9);
+    max-width: calc(70px * 9);
 }
-
-
 
 .slot {
     width: 64px;
     height: 64px;
     margin: 1px;
-    background-color: #f0f0f0;
-    border: 1px solid #000;
+    background-color: rgb(140,138,141);
+    border: 2px solid rgb(43,42,44);
     cursor: pointer;
 
     display: flex;
@@ -46,11 +44,12 @@
     width: 60px;
 }
 .item-icon-list{
+    border: 2px solid rgb(43,42,44);
+    background-color: rgb(140,138,141) ;
     image-rendering: pixelated;
     height: 60px;
     width: 60px;
 }
-
 .item-settings{
     margin-right: 5%;
     gap: 2px;
@@ -60,21 +59,56 @@
     max-width: 15%;
 }
 
-#json-output{
-    max-height: 10%;
+#search-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.item-list-container { 
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    background-color: white;
+    max-height: calc(68px * 5); 
+    justify-content: center;
+    margin-right: 10px;
 }
 
 .item-list{
-    max-width: 400px;
+    width: 134px;
     display: flex;
     flex-wrap: wrap;
-    max-height: 400px;
+    max-height: calc(68px * 5); 
     flex-direction: column;
     justify-content: center;
 }
 
 #search-input {
-    width: 5%;
+    width: 131px;
     height: 20px;
     box-sizing: border-box;
+}
+
+.tooltip {
+    position: absolute;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.tooltip-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#item-name {
+    font-weight: bold;
+}
+
+.tooltip.show {
+    display: block;
 }
