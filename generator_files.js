@@ -1,34 +1,31 @@
-function generateInitFunction(jsonData) {
+function generateFiles(jsonData) {
     const guiName = 'gui1'; // Set your GUI name here
-
     const itemsToSummon = [];
-    const uniqueItems = new Set(); // A Set to store unique items
+    const uniqueItems = new Set();
 
     for (let index = 0; index < 27; index++) {
-        const slot = jsonData.slots[index];
-        const item = slot[`slot:${index}`];
-
-        const itemName = item.Item.id;
-        uniqueItems.add(itemName); // Add the item to the Set
+        const slot = jsonData.slots[index][`slot:${index}`];
+        const itemName = slot.Item.id;
+        uniqueItems.add(itemName);
 
         const itemCommand = `{Slot:${index}b,id:"${itemName}",Count:1b,tag:{${guiName}:1b`;
 
         const tagParts = [];
 
-        if (item.Name.text || item.Lore.text || item.Function) {
+        if (slot.Name.text || slot.Lore.text || slot.Function) {
             const displayTag = {};
 
-            if (item.Name.text) {
-                displayTag.Name = `{"text":"${item.Name.text}","color":"white"}`;
+            if (slot.Name.text) {
+                displayTag.Name = `{"text":"${slot.Name.text}","color":"white"}`;
             }
 
-            if (item.Lore.text) {
-                const loreLines = item.Lore.text.split('\n');
+            if (slot.Lore.text) {
+                const loreLines = slot.Lore.text.split('\n');
                 displayTag.Lore = loreLines.map(line => `{"text":"${line}","color":"white"}`);
             }
 
-            if (item.Function) {
-                displayTag.Function = `["${item.Function}"]`;
+            if (slot.Function) {
+                displayTag.Function = `${slot.Function}`;
             }
 
             tagParts.push(`display:${JSON.stringify(displayTag)}`);
@@ -40,44 +37,117 @@ function generateInitFunction(jsonData) {
         itemsToSummon.push(itemCommandFull);
     }
 
-    // Join item commands with commas and add the 'Items' array
-    const itemsCommand = `Items:[${itemsToSummon.join(', ')}]`;
+    const itemsCommand = `Items:[${itemsToSummon.join(',')}]`;
 
-    const summonCommand = `summon chest_minecart ~ ~ ~ {${itemsCommand}}`;
-    const initFunction = `# Initialize chest minecart with custom items\n${summonCommand}`;
+    const summonCommand = `summon chest_minecart ~ ~1 ~ {Tags:["${guiName}"],${itemsCommand}}`;
 
-    // Create a Blob from the function text
-    const blob = new Blob([initFunction], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
+    const initFunctionContent = `# Initialize chest minecart with custom items\n${summonCommand}
+data modify storage minecraft:gui1 Items set value []
+function general:${guiName}/loop_start`;
 
-    // Create a link element to trigger the download
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'init.mcfunction';
+    const loopStartContent = `execute if score .j loop matches 0.. run scoreboard players add .j loop 1
+execute unless score .j loop matches -2147483648..2147483647 run scoreboard players set .j loop 0
+execute store result storage loop index int 1 run scoreboard players get .j loop
+function general:${guiName}/loop_execute with storage minecraft:loop`;
 
-    // Trigger a click event to download the file
-    a.click();
-    URL.revokeObjectURL(url);
+    const loopExecuteContent = `$data modify storage minecraft:gui1 Items append from entity @e[tag=gui1,limit=1] Items[$(index)]
+execute if score .j loop matches 27.. run scoreboard players reset .j loop
+execute if score .j loop matches ..26 run function general:${guiName}/loop_start`;
+
+    const finishGuiContent = `$execute as $(name) at @s run function $(function)
+$item replace entity @e[tag=gui1] container.$(slot) with $(id)$(nbt) 1
+$clear $(name) #general:gui1_items{gui1:1b}
+data modify storage minecraft:gui1_used settings set value {"name":"@a","slot":"","id":"","nbt":"","function":"general:${guiName}/no_function"}`;
+
+    const loadOnceContent = `summon text_display 0 0 0 {Tags:["pnt.name"],UUID:[I;112,110,116,120]}
+scoreboard objectives add pnt.left minecraft.custom:minecraft.leave_game
+scoreboard players set #4 pnt.left 4`;
+
+    const checkEmptySlotContent = `$execute unless data entity @e[tag=gui1,limit=1] Items[{Slot:$(index)b}] run data modify storage minecraft:gui1_used settings.nbt set from storage minecraft:gui1 Items[$(index)].tag
+$execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run data modify storage minecraft:gui1_used settings.id set from storage minecraft:gui1 Items[$(index)].id
+$execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run data modify storage minecraft:gui1_used settings.function set from storage minecraft:gui1 Items[$(index)].tag.display.Function
+$execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run data modify storage minecraft:gui1_used settings.slot set value "$(index)"
+$execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run function general:${guiName}/finish_gui with storage minecraft:gui1_used settings
+$execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run scoreboard players reset .i loop
+$execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run return 0
+function general:${guiName}/get_empty_slot`;
+    const getEmptySlotContent = `execute if score .i loop matches 0.. run scoreboard players add .i loop 1
+execute unless score .i loop matches -2147483648..2147483647 run scoreboard players set .i loop 0
+execute store result storage loop index int 1 run scoreboard players get .i loop
+function general:${guiName}/check_empty_slot with storage minecraft:loop`;
+    const getNameStrContent = `$data modify storage minecraft:${guiName}_used settings.name set string entity @s text -$(len) -2
+kill @s
+scoreboard players reset .i loop
+function general:${guiName}/get_empty_slot`;
+
+    const getNameContent = `function general:${guiName}/load_once
+
+data modify entity 00000070-0000-006e-0000-007400000078 text set value '{"selector":"@p"}'
+
+# calcualte length of the name
+execute store result score .str_len pnt.left run data get entity 00000070-0000-006e-0000-007400000078 text
+scoreboard players remove .str_len pnt.left 226
+scoreboard players operation .str_len pnt.left /= #4 pnt.left
+execute store result storage pnt args.len int 1 run scoreboard players add .str_len pnt.left 2
+execute as 00000070-0000-006e-0000-007400000078 run function general:${guiName}/get_name_str with storage pnt args`;
+
+    const noFunctionContent = 'return 0';
+
+    const tickContent = `execute store success score @a test run clear @a #general:${guiName}_items{${guiName}:1b} 0
+execute at @a[scores={test=1..}] run function general:${guiName}/get_name`;
+
+    // Define an object with filename-content pairs
+    const filesToGenerate = {
+        'init.mcfunction': initFunctionContent,
+        'loop_start.mcfunction': loopStartContent,
+        'loop_execute.mcfunction': loopExecuteContent,
+        'finish_gui.mcfunction': finishGuiContent,
+        'load_once.mcfunction': loadOnceContent,
+        'check_empty_slot.mcfunction': checkEmptySlotContent,
+        'get_empty_slot.mcfunction': getEmptySlotContent,
+        'get_name_str.mcfunction': getNameStrContent,
+        'get_name.mcfunction': getNameContent,
+        'no_function.mcfunction': noFunctionContent,
+        'tick.mcfunction': tickContent,
+    };
+
+    // Create a new JSZip instance
+    const zip = new JSZip();
+
+    // Create a folder for the GUI name
+    const guiFolder = zip.folder(guiName);
+
+    // Add each file to the GUI folder
+    for (const fileName in filesToGenerate) {
+        guiFolder.file(fileName, filesToGenerate[fileName]);
+    }
 
     // Generate the JSON file with unique items
-    const uniqueItemsArray = Array.from(uniqueItems); // Convert the Set to an array
-    const guiItemsJSON = JSON.stringify({ replace: false, values: uniqueItemsArray }, null, 2);
+    const uniqueItemsArray = Array.from(uniqueItems);
+    const guiItemsJSON = {
+        replace: false,
+        values: uniqueItemsArray,
+    };
 
-    // Create a Blob from the JSON text
-    const itemsBlob = new Blob([guiItemsJSON], { type: 'application/json' });
-    const itemsUrl = URL.createObjectURL(itemsBlob);
+    // Add the items.json file outside the GUI folder with the desired name
+    zip.file(`${guiName}_items.json`, JSON.stringify(guiItemsJSON, null, 2));
 
-    // Create a link element to trigger the download
-    const itemsLink = document.createElement('a');
-    itemsLink.href = itemsUrl;
-    itemsLink.download = `${guiName}_items.json`;
+    // Generate the folder and compress it
+    zip.generateAsync({ type: 'blob' }).then(function (blob) {
+        // Create an anchor element to trigger the download
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${guiName}_folder.zip`;
+        link.style.display = 'none';
 
-    // Trigger a click event to download the JSON file
-    itemsLink.click();
-    URL.revokeObjectURL(itemsUrl);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
 }
-
 // Add an event listener to the download button
 document.getElementById('download-button').addEventListener('click', () => {
-    generateInitFunction(jsonData); // Pass the JSON data to the generation function
+    generateFiles(jsonData); // Pass the JSON data to the generation function
 });
+
+
