@@ -75,12 +75,59 @@ function createItemMenu(items) {
     const itemDropdown = document.createElement('select');
     const itemFunctionInput = document.createElement('input');
     itemFunctionInput.placeholder = 'Function (optional)';
-
-    const itemNameInput = document.createElement('input');
-    itemNameInput.placeholder = 'Item Name';
-    const itemLoreInput = document.createElement('textarea'); // Use a textarea for lore input
-    itemLoreInput.placeholder = 'Lore (optional)';
+    itemFunctionInput.id = "function_input";
+    itemFunctionInput.spellcheck = false
     
+    // Create contenteditable divs for item name and lore
+    const itemNameInput = document.createElement('div');
+    itemNameInput.id = "name_input";
+    itemNameInput.spellcheck = false
+    itemNameInput.className = "content-editable";
+    itemNameInput.style.backgroundColor = 'black';
+    itemNameInput.style.fontFamily = "Minecraftia"
+    itemNameInput.style.color = 'white';
+    itemNameInput.style.border = '1px solid #ccc';
+    itemNameInput.contentEditable = true; // Enable content editing
+
+    const itemLoreInput = document.createElement('div');
+    itemLoreInput.id = "lore_input";
+    itemLoreInput.spellcheck = false
+    itemLoreInput.className = "content-editable";
+    itemLoreInput.style.fontFamily = "Minecraftia"
+    itemLoreInput.style.backgroundColor = 'black';
+    itemLoreInput.style.color = 'white';
+    itemLoreInput.style.height = '150px';
+    itemLoreInput.style.resize = 'none';
+    itemLoreInput.style.overflowY = 'auto';
+    itemLoreInput.style.border = '1px solid #ccc';
+    itemLoreInput.contentEditable = true; // Enable content editing
+    
+    // Add toolbar buttons for text formatting
+    const boldButton = document.createElement('button');
+    boldButton.textContent = 'Bold';
+    boldButton.onclick = () => document.execCommand('bold', false, null);
+
+    const italicButton = document.createElement('button');
+    italicButton.textContent = 'Italic';
+    italicButton.onclick = () => document.execCommand('italic', false, null);
+
+    // Create an input field for color selection
+    const colorButton = document.createElement('input');
+    colorButton.type = 'color';
+    colorButton.title = 'Pick a color';
+    colorButton.oninput = () => document.execCommand('foreColor', false, colorButton.value);
+
+    colorButton.oninput = () => document.execCommand('foreColor', false, colorButton.value);
+    boldButton.onclick = () => {
+        document.execCommand('bold', false, null);
+        updateButtonsState();
+    };
+    italicButton.onclick = () => {
+        document.execCommand('italic', false, null);
+        updateButtonsState();
+    };
+
+
     // Add a label for the active slot
     const activeSlotLabel = document.createElement('label');
     activeSlotLabel.textContent = 'Active Slot:';
@@ -99,12 +146,20 @@ function createItemMenu(items) {
     itemDropdown.addEventListener('change', updateJSON);
     itemNameInput.addEventListener('input', updateJSON);
     itemFunctionInput.addEventListener('input', updateJSON);
-    itemLoreInput.addEventListener('input', updateJSON); // Add event listener for "Lore" input
+    itemLoreInput.addEventListener('input', updateJSON);
 
-    itemMenu.appendChild(activeSlotLabel); // Add the active slot label
+    const styleButtons = document.createElement('div')
+    styleButtons.id = "style-button"
+
+    styleButtons.appendChild(boldButton);
+    styleButtons.appendChild(italicButton);
+    styleButtons.appendChild(colorButton);
+
+    itemMenu.appendChild(activeSlotLabel);
     itemMenu.appendChild(itemDropdown);
+    itemMenu.appendChild(styleButtons)
     itemMenu.appendChild(itemNameInput);
-    itemMenu.appendChild(itemLoreInput); // Use the "Lore" textarea
+    itemMenu.appendChild(itemLoreInput);
     itemMenu.appendChild(itemFunctionInput);
     
     // Add the event listener for the search input
@@ -117,7 +172,15 @@ function createItemMenu(items) {
 
     // Load initial settings for the active slot
     loadItemSettings(activeSlot);
+
+    function updateButtonsState() {
+        boldButton.style.fontWeight = document.queryCommandState('bold') ? 'bold' : 'normal';
+        italicButton.style.fontStyle = document.queryCommandState('italic') ? 'italic' : 'normal';
+    }
 }
+
+
+
 
 function openItemMenu(slot) {
     const itemMenu = document.querySelector('.item-settings');
@@ -140,9 +203,9 @@ function filterItems(items, searchTerm) {
 function loadItemSettings(slot) {
     const selectedItem = slotSettings[slot];
     document.querySelector('.item-settings select').value = selectedItem.type;
-    document.querySelector('.item-settings input[placeholder="Item Name"]').value = selectedItem.name;
-    document.querySelector('.item-settings input[placeholder="Function (optional)"]').value = selectedItem.function;
-    const loreInput = document.querySelector('.item-settings textarea[placeholder="Lore (optional)"]');
+    document.querySelector('.item-settings #name_input').value = selectedItem.name;
+    document.querySelector('.item-settings #function_input').value = selectedItem.function;
+    const loreInput = document.querySelector('.item-settings #lore_input');
 
     // Check if lore is an array, and if so, convert it to a formatted string
     if (Array.isArray(selectedItem.lore)) {
@@ -203,9 +266,9 @@ function updateIconDisplay(activeSlot, iconFileName) {
 function updateJSON() {
     const activeSlot = document.querySelector('.item-settings').dataset.activeSlot;
     const selectedOption = document.querySelector('.item-settings select').value;
-    const itemName = document.querySelector('.item-settings input[placeholder="Item Name"]').value;
-    const itemFunction = document.querySelector('.item-settings input[placeholder="Function (optional)"]').value;
-    const itemLore = document.querySelector('.item-settings textarea[placeholder="Lore (optional)"]').value; // Get lore from textarea
+    const itemName = document.querySelector('.item-settings #name_input').value;
+    const itemFunction = document.querySelector('.item-settings #function_input').value;
+    const itemLore = document.querySelector('.item-settings #lore_input').value; // Get lore from textarea
 
     // Split the lore into lines, separating by newlines
     const loreLines = itemLore.split('\n');

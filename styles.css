@@ -12,7 +12,7 @@
     justify-content: center;
     align-items: center; /* Center vertically */
 }
-#item-container {
+#download-container {
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
@@ -51,12 +51,12 @@
     width: 60px;
 }
 .item-settings{
-    margin-right: 5%;
+    margin-left: 10px;
     gap: 2px;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    max-width: 15%;
+    max-width: 10%;
 }
 
 #search-container{
@@ -111,4 +111,35 @@
 
 .tooltip.show {
     display: block;
+}
+
+.toolbar-button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    margin: 2px;
+    cursor: pointer;
+    padding: 3px 6px;
+}
+
+.toolbar-button:active {
+    background-color: cadetblue;
+}
+
+@font-face {
+    font-family: Minecraftia;
+    src: url(fonts/Minecraftia.ttf)
+  }
+
+.content-editable {
+    /* Add your styling for contenteditable elements here */
+    border: 1px solid #ccc;
+    padding: 5px;
+    min-height: 16px;
+    font-size: 14px;
+    color: black;
+}
+
+#style-button{
+    display: flex;
+    flex-direction: row;
 }
