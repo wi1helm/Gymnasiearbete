@@ -12,16 +12,18 @@ function generateFiles(jsonData) {
 
         const tagParts = [];
 
-        if (slot.Name.text || slot.Lore.text || slot.Function) {
+        if (slot.Name.text || slot.Lore.length > 0 || slot.Function) {
             const displayTag = {};
 
             if (slot.Name.text) {
                 displayTag.Name = `{"text":"${slot.Name.text}","color":"white"}`;
             }
 
-            if (slot.Lore.text) {
-                const loreLines = slot.Lore.text.split('\n');
-                displayTag.Lore = loreLines.map(line => `{"text":"${line}","color":"white"}`);
+            if (slot.Lore.length > 0) {
+                displayTag.Lore = slot.Lore.map(line => {
+                    // Format each lore line as an object
+                    return `{"text":"${line.text}","color":"${line.color}"}`;
+                });
             }
 
             if (slot.Function) {

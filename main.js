@@ -4,7 +4,6 @@ const jsonOutput = document.getElementById('json-output');
 const inventoryGrid = document.querySelector('.inventory-grid');
 let jsonData = {}; // To store the JSON data
 
-
 // Initialize an array to store all items
 let allItems = [];
 
@@ -12,7 +11,16 @@ let allItems = [];
 const slotSettings = Array.from({ length: 27 }, () => ({
     type: 'minecraft:gray_stained_glass_pane',
     name: '',
-    lore: '',
+    lore: [ // Lore as an array of objects
+        {
+            text: '',
+            color: 'white',
+        },
+        {
+            text: '',
+            color: 'white',
+        }
+    ],
     function: '',
     icon: 'gray_stained_glass_pane.png',
 }));
@@ -62,7 +70,6 @@ document.querySelector('.inventory-grid').addEventListener('click', (event) => {
     }
 });
 
-
 function createItemMenu(items) {
     const itemMenu = document.querySelector('.item-settings');
     const itemDropdown = document.createElement('select');
@@ -71,7 +78,7 @@ function createItemMenu(items) {
 
     const itemNameInput = document.createElement('input');
     itemNameInput.placeholder = 'Item Name';
-    const itemLoreInput = document.createElement('input');
+    const itemLoreInput = document.createElement('textarea'); // Use a textarea for lore input
     itemLoreInput.placeholder = 'Lore (optional)';
     
     // Add a label for the active slot
@@ -80,7 +87,7 @@ function createItemMenu(items) {
     const activeSlotDisplay = document.createElement('span');
     activeSlotDisplay.id = 'active-slot-display';
     activeSlotLabel.appendChild(activeSlotDisplay);
-    
+
     for (const item of items) {
         const option = document.createElement('option');
         option.value = item.id;
@@ -97,7 +104,7 @@ function createItemMenu(items) {
     itemMenu.appendChild(activeSlotLabel); // Add the active slot label
     itemMenu.appendChild(itemDropdown);
     itemMenu.appendChild(itemNameInput);
-    itemMenu.appendChild(itemLoreInput); // Add the "Lore" input field to the menu
+    itemMenu.appendChild(itemLoreInput); // Use the "Lore" textarea
     itemMenu.appendChild(itemFunctionInput);
     
     // Add the event listener for the search input
@@ -134,10 +141,18 @@ function loadItemSettings(slot) {
     const selectedItem = slotSettings[slot];
     document.querySelector('.item-settings select').value = selectedItem.type;
     document.querySelector('.item-settings input[placeholder="Item Name"]').value = selectedItem.name;
-    document.querySelector('.item-settings input[placeholder="Lore (optional)"]').value = selectedItem.lore;
     document.querySelector('.item-settings input[placeholder="Function (optional)"]').value = selectedItem.function;
+    const loreInput = document.querySelector('.item-settings textarea[placeholder="Lore (optional)"]');
+
+    // Check if lore is an array, and if so, convert it to a formatted string
+    if (Array.isArray(selectedItem.lore)) {
+        loreInput.value = selectedItem.lore.map(line => line.text).join('\n');
+    } else {
+        loreInput.value = selectedItem.lore || '';
+    }
 }
 
+// Function to generate JSON with updated lore
 function generateJSON() {
     const formattedSlots = slotSettings.map((settings, index) => {
         const item = {
@@ -148,10 +163,7 @@ function generateJSON() {
             text: settings.name || '',
             color: 'white',
         };
-        const lore = {
-            text: settings.lore || '',
-            color: 'white',
-        };
+        const lore = settings.lore || []; // Use the lore from slotSettings
         const func = settings.function || '';
 
         const icon = settings.icon || '';
@@ -165,9 +177,9 @@ function generateJSON() {
             [`slot:${index}`]: {
                 Item: item,
                 Name: name,
-                Lore: lore,
+                Lore: lore, // Include the lore from slotSettings
                 Function: func,
-                Icon: settings.icon,
+                Icon: icon,
             },
         };
     });
@@ -175,32 +187,6 @@ function generateJSON() {
     const jsonResult = JSON.stringify({ slots: formattedSlots }, null, 2);
     console.log(jsonResult);
     jsonData = { slots: formattedSlots };
-}
-
-
-
-// Function to automatically update settings for the active slot
-function updateJSON() {
-    const activeSlot = document.querySelector('.item-settings').dataset.activeSlot;
-    const selectedOption = document.querySelector('.item-settings select').value;
-    const itemName = document.querySelector('.item-settings input[placeholder="Item Name"]').value;
-    const itemFunction = document.querySelector('.item-settings input[placeholder="Function (optional)"]').value;
-    const itemLore = document.querySelector('.item-settings input[placeholder="Lore (optional)"]').value;
-
-    // Update the icon for the active slot in slotSettings
-    slotSettings[activeSlot].icon = selectedOption.replace('minecraft:', '') + '.png';
-
-    // Update other settings for the active slot
-    slotSettings[activeSlot] = {
-        type: selectedOption,
-        name: itemName,
-        lore: itemLore || '',
-        function: itemFunction || '',
-        icon: slotSettings[activeSlot].icon, // Set the icon
-    };
-
-    // Update the displayed icon for the active slot
-    updateIconDisplay(activeSlot, slotSettings[activeSlot].icon);
 }
 
 // Function to update the displayed icon for the active slot
@@ -213,6 +199,35 @@ function updateIconDisplay(activeSlot, iconFileName) {
     }
 }
 
+// Update the updateJSON function to correctly set the icon
+function updateJSON() {
+    const activeSlot = document.querySelector('.item-settings').dataset.activeSlot;
+    const selectedOption = document.querySelector('.item-settings select').value;
+    const itemName = document.querySelector('.item-settings input[placeholder="Item Name"]').value;
+    const itemFunction = document.querySelector('.item-settings input[placeholder="Function (optional)"]').value;
+    const itemLore = document.querySelector('.item-settings textarea[placeholder="Lore (optional)"]').value; // Get lore from textarea
+
+    // Split the lore into lines, separating by newlines
+    const loreLines = itemLore.split('\n');
+
+    // Update the icon for the active slot in slotSettings
+    slotSettings[activeSlot].icon = selectedOption.replace('minecraft:', '') + '.png';
+
+    // Update other settings for the active slot, including lore
+    slotSettings[activeSlot] = {
+        type: selectedOption,
+        name: itemName,
+        lore: loreLines.map((line) => ({
+            text: line,
+            color: 'white',
+        })),
+        function: itemFunction || '',
+        icon: slotSettings[activeSlot].icon, // Set the icon
+    };
+
+    // Update the displayed icon for the active slot
+    updateIconDisplay(activeSlot, slotSettings[activeSlot].icon);
+}
 
 function createItemList(items) {
     const itemList = document.querySelector('.item-list');
@@ -225,13 +240,13 @@ function createItemList(items) {
     itemList.innerHTML = '';
 
     // Determine how many items to display (up to a maximum of 10)
-    const numItemsToDisplay = Math.min(10, items.length);
+    const numItemsTodisplay = Math.min(10, items.length);
 
     for (let i = 0; i < 10; i++) {
         const itemContainer = document.createElement('div');
         itemContainer.classList.add('item-container');
 
-        if (i < numItemsToDisplay) {
+        if (i < numItemsTodisplay) {
             const item = items[i];
             const itemIcon = document.createElement('img');
             itemIcon.classList.add('item-icon-list');
@@ -256,11 +271,6 @@ function createItemList(items) {
     // Reset the scroll position to the top
     itemListContainer.scrollTop = scrollPosition;
 }
-
-
-
-
-
 
 // Event listener for item drag start
 document.addEventListener('dragstart', (event) => {
@@ -298,7 +308,6 @@ inventoryGrid.addEventListener('drop', (event) => {
     // Generate JSON to reflect the changes
     generateJSON();
 });
-
 
 const inventorygrid = document.querySelector('.inventory-grid');
 const itemTooltip = document.getElementById('item-tooltip');
