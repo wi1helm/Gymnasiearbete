@@ -10,19 +10,12 @@ let allItems = [];
 // Initialize an array to store slot-specific settings
 const slotSettings = Array.from({ length: 27 }, () => ({
     type: 'minecraft:gray_stained_glass_pane',
-    name: '',
-    lore: [ // Lore as an array of objects
-        {
-            text: '',
-            color: 'white',
-        },
-        {
-            text: '',
-            color: 'white',
-        }
-    ],
+    name: [], // Name as an array of segments
+    lore: [], // Lore as an array of segments
     function: '',
     icon: 'gray_stained_glass_pane.png',
+    nameDisplay: "",
+    loreDisplay: ""
 }));
 
 // Load test items from Minecraft JSON file
@@ -72,7 +65,7 @@ document.querySelector('.inventory-grid').addEventListener('click', (event) => {
 
 function createItemMenu(items) {
     const itemMenu = document.querySelector('.item-settings');
-    const itemDropdown = document.createElement('select');
+    //const itemDropdown = document.createElement('select');
     const itemFunctionInput = document.createElement('input');
     itemFunctionInput.placeholder = 'Function (optional)';
     itemFunctionInput.id = "function_input";
@@ -139,11 +132,11 @@ function createItemMenu(items) {
         const option = document.createElement('option');
         option.value = item.id;
         option.textContent = item.name;
-        itemDropdown.appendChild(option);
+        //itemDropdown.appendChild(option);
     }
 
     // Add event listeners to input elements
-    itemDropdown.addEventListener('change', updateJSON);
+    //itemDropdown.addEventListener('change', updateJSON);
     itemNameInput.addEventListener('input', updateJSON);
     itemFunctionInput.addEventListener('input', updateJSON);
     itemLoreInput.addEventListener('input', updateJSON);
@@ -156,7 +149,7 @@ function createItemMenu(items) {
     styleButtons.appendChild(colorButton);
 
     itemMenu.appendChild(activeSlotLabel);
-    itemMenu.appendChild(itemDropdown);
+    //itemMenu.appendChild(itemDropdown);
     itemMenu.appendChild(styleButtons)
     itemMenu.appendChild(itemNameInput);
     itemMenu.appendChild(itemLoreInput);
@@ -202,54 +195,44 @@ function filterItems(items, searchTerm) {
 
 function loadItemSettings(slot) {
     const selectedItem = slotSettings[slot];
-    document.querySelector('.item-settings select').value = selectedItem.type;
-    document.querySelector('.item-settings #name_input').value = selectedItem.name;
+    //document.querySelector('.item-settings select').value = selectedItem.type;
+    document.querySelector('.item-settings #name_input').innerHTML = selectedItem.nameDisplay;
     document.querySelector('.item-settings #function_input').value = selectedItem.function;
-    const loreInput = document.querySelector('.item-settings #lore_input');
+    document.querySelector('.item-settings #lore_input').innerHTML = selectedItem.loreDisplay;
 
-    // Check if lore is an array, and if so, convert it to a formatted string
-    if (Array.isArray(selectedItem.lore)) {
-        loreInput.value = selectedItem.lore.map(line => line.text).join('\n');
-    } else {
-        loreInput.value = selectedItem.lore || '';
-    }
+    
 }
 
-// Function to generate JSON with updated lore
 function generateJSON() {
     const formattedSlots = slotSettings.map((settings, index) => {
         const item = {
             id: settings.type,
             // Add more properties as needed
         };
-        const name = {
-            text: settings.name || '',
-            color: 'white',
-        };
-        const lore = settings.lore || []; // Use the lore from slotSettings
-        const func = settings.function || '';
 
+        const name = settings.name
+        const lore = settings.lore
+
+        const func = settings.function || '';
         const icon = settings.icon || '';
-        
+
         // Update the icon for the active slot in slotSettings
         if (settings.type) {
             settings.icon = settings.type.replace('minecraft:', '') + '.png';
         }
-        
+
         return {
             [`slot:${index}`]: {
                 Item: item,
                 Name: name,
-                Lore: lore, // Include the lore from slotSettings
+                Lore: lore,
                 Function: func,
                 Icon: icon,
             },
         };
     });
-
-    const jsonResult = JSON.stringify({ slots: formattedSlots }, null, 2);
-    console.log(jsonResult);
     jsonData = { slots: formattedSlots };
+    console.log(jsonData);
 }
 
 // Function to update the displayed icon for the active slot
@@ -262,34 +245,159 @@ function updateIconDisplay(activeSlot, iconFileName) {
     }
 }
 
-// Update the updateJSON function to correctly set the icon
 function updateJSON() {
     const activeSlot = document.querySelector('.item-settings').dataset.activeSlot;
-    const selectedOption = document.querySelector('.item-settings select').value;
-    const itemName = document.querySelector('.item-settings #name_input').value;
+    //const selectedOption = document.querySelector('.item-settings select').value;
+    const itemName = document.querySelector('.item-settings #name_input').innerHTML; // Get name from content-editable div
     const itemFunction = document.querySelector('.item-settings #function_input').value;
-    const itemLore = document.querySelector('.item-settings #lore_input').value; // Get lore from textarea
-
-    // Split the lore into lines, separating by newlines
-    const loreLines = itemLore.split('\n');
+    const itemLore = document.querySelector('.item-settings #lore_input').innerHTML; // Get lore from textarea
 
     // Update the icon for the active slot in slotSettings
-    slotSettings[activeSlot].icon = selectedOption.replace('minecraft:', '') + '.png';
+    //slotSettings[activeSlot].icon = selectedOption.replace('minecraft:', '') + '.png';
 
-    // Update other settings for the active slot, including lore
-    slotSettings[activeSlot] = {
-        type: selectedOption,
-        name: itemName,
-        lore: loreLines.map((line) => ({
-            text: line,
-            color: 'white',
-        })),
-        function: itemFunction || '',
-        icon: slotSettings[activeSlot].icon, // Set the icon
-    };
+    // Check if nameSegmentsFromInput returns a valid array or is null
+    const nameSegments = nameSegmentsFromInput(itemName);
+    if (Array.isArray(nameSegments)) {
+        slotSettings[activeSlot].name = nameSegments;
+    } else {
+        slotSettings[activeSlot].name = []; // Set to an empty array if null
+    }
+
+    // Handle loreSegmentsFromInput similarly (checking for null)
+    const loreSegments = loreSegmentsFromInput(itemLore);
+    slotSettings[activeSlot].lore = loreSegments;
+    slotSettings[activeSlot].function = itemFunction || '';
+    slotSettings[activeSlot].icon = slotSettings[activeSlot].icon; // Set the icon
+    slotSettings[activeSlot].loreDisplay = itemLore
+    slotSettings[activeSlot].nameDisplay = itemName
 
     // Update the displayed icon for the active slot
     updateIconDisplay(activeSlot, slotSettings[activeSlot].icon);
+}
+
+
+// Function to extract name segments from input
+function nameSegmentsFromInput(htmlString) {
+    console.log(htmlString)
+    // Arrays to store text and styles
+    const textSegments = [];
+    const colorStyles = [];
+    const boldStyles = [];
+    const italicStyles = [];
+
+    // Initialize default styles
+    let currentColor = 'white';
+    let currentBold = false;
+    let currentItalic = false;
+
+    while (htmlString.length > 0) {
+    // Search for the next '<'
+    const openTagIndex = htmlString.indexOf('<');
+
+    if (openTagIndex === -1) {
+        // No more tags, treat the remaining content as plain text
+        const textContent = htmlString;
+        if (textContent.trim() !== '') {
+        textSegments.push(textContent);
+        colorStyles.push(currentColor);
+        boldStyles.push(currentBold);
+        italicStyles.push(currentItalic);
+        }
+        break;
+    }
+
+    // Get the text content before the next '<'
+    const textBeforeTag = htmlString.slice(0, openTagIndex);
+
+    // Update the arrays with the text and styles (only if not empty)
+    if (textBeforeTag.trim() !== '') {
+        textSegments.push(textBeforeTag);
+        colorStyles.push(currentColor);
+        boldStyles.push(currentBold);
+        italicStyles.push(currentItalic);
+    }
+
+    // Remove the processed text from the string
+    htmlString = htmlString.slice(openTagIndex);
+
+    // Check for supported tags (you can expand this list)
+    if (htmlString.startsWith('<font')) {
+        const colorMatch = htmlString.match(/color="(.*?)"/);
+        if (colorMatch) {
+        currentColor = colorMatch[1];
+        }
+        htmlString = htmlString.slice(htmlString.indexOf('>') + 1); // Skip the opening tag
+    } else if (htmlString.startsWith('</font>')) {
+        htmlString = htmlString.slice(7); // Skip the closing tag
+        currentColor = 'white'; // Reset to the default color
+    } else if (htmlString.startsWith('<b>')) {
+        currentBold = true;
+        htmlString = htmlString.slice(3); // Skip the opening tag
+    } else if (htmlString.startsWith('</b>')) {
+        currentBold = false;
+        htmlString = htmlString.slice(4); // Skip the closing tag
+    } else if (htmlString.startsWith('<i>')) {
+        currentItalic = true;
+        htmlString = htmlString.slice(3); // Skip the opening tag
+    } else if (htmlString.startsWith('</i>')) {
+        currentItalic = false;
+        htmlString = htmlString.slice(4); // Skip the closing tag
+    } else {
+        // Unsupported tag, just skip it
+        htmlString = htmlString.slice(1);
+    }
+    }
+    // Create an array of objects
+    const result = textSegments.map((text, index) => ({
+        text: text,
+        color: colorStyles[index],
+        bold: boldStyles[index],
+        italic: italicStyles[index],
+    }));
+
+    return result
+}
+
+// Function to extract lore segments from input
+function loreSegmentsFromInput(inputLines) {
+    // Ensure inputLines is a string
+    if (typeof inputLines !== 'string') {
+        console.log("invalid input"); // Return an empty array for invalid input
+    }
+
+    // Use regular expression to match the text inside div tags
+    var tagContent = inputLines.match(/<div>(.*?)<\/div>/g);
+
+    // Ensure tagContent is an array, and if not, return an empty array
+    if (!Array.isArray(tagContent)) {
+        tagContent = [];
+    }
+
+    // Remove <div> and </div> tags from the matched content
+    const cleanedContent = tagContent.map(tag => tag.replace(/<\/?div>/g, ''));
+
+    // Use regular expression to split the string into an array
+    const splitStrings = inputLines.split(/<div>.*?<\/div>/);
+
+    // Remove empty strings and trim whitespace
+    const result = splitStrings
+        .concat(cleanedContent)
+        .filter(str => str && str.trim() !== '');
+
+    // Replace <br> with a space
+    const finalResult = result.map(segment => segment.replace(/<br>/g, ' '));
+
+    const processedArray = finalResult.map(nameSegmentsFromInput);
+    // Ensure that empty arrays contain the specified object
+    const finalProcessedArray = processedArray.map(segment => {
+        if (segment.length === 0) {
+            return [{ text: ' ', color: 'white', bold: false, italic: false }];
+        } else {
+            return segment;
+        }
+    });
+    console.log(finalProcessedArray)
+    return finalProcessedArray;
 }
 
 function createItemList(items) {
@@ -360,6 +468,18 @@ inventoryGrid.addEventListener('drop', (event) => {
 
     // Get the target slot where the item was dropped
     const targetSlot = event.target.dataset.slot;
+    activeSlot = targetSlot;
+    openItemMenu(activeSlot);
+    // Ensure that slotSettings is an array with a length of at least 27
+    if (!Array.isArray(slotSettings)) {
+        slotSettings = Array.from({ length: 27 }, () => ({
+            type: 'minecraft:gray_stained_glass_pane',
+            name: [], // Name as an array of segments
+            lore: [], // Lore as an array of segments
+            function: '',
+            icon: 'gray_stained_glass_pane.png',
+        }));
+    }
 
     // Update the slotSettings for the target slot
     slotSettings[targetSlot].type = itemType;
