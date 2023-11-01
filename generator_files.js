@@ -1,5 +1,8 @@
 function generateFiles(jsonData) {
-    const guiName = 'gui1'; // Set your GUI name here
+    const guiName = document.getElementById("gui_name_input").value 
+    if (guiName == ""){
+        return
+    }
     const itemsToSummon = [];
     const uniqueItems = new Set();
 
@@ -55,9 +58,10 @@ function general:${guiName}/loop_execute with storage minecraft:loop`;
 execute if score .j loop matches 27.. run scoreboard players reset .j loop
 execute if score .j loop matches ..26 run function general:${guiName}/loop_start`;
 
-    const finishGuiContent = `$execute as $(name) at @s run function $(function)
+    const finishGuiContent = `
 $item replace entity @e[tag=gui1] container.$(slot) with $(id)$(nbt) 1
 $clear $(name) #general:gui1_items{gui1:1b}
+$execute as $(name) at @s run function $(function)
 data modify storage minecraft:gui1_used settings set value {"name":"@a","slot":"","id":"","nbt":"","function":"general:${guiName}/no_function"}`;
 
     const loadOnceContent = `summon text_display 0 0 0 {Tags:["pnt.name"],UUID:[I;112,110,116,120]}

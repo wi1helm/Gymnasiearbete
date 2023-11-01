@@ -400,10 +400,6 @@
         "name": "Brewing Stand"
     },
     {
-        "id": "minecraft:brewing_stand_base",
-        "name": "Brewing Stand Base"
-    },
-    {
         "id": "minecraft:brick",
         "name": "Brick"
     },
@@ -484,10 +480,6 @@
         "name": "Bundle"
     },
     {
-        "id": "minecraft:bundle_filled",
-        "name": "Bundle Filled"
-    },
-    {
         "id": "minecraft:burn_pottery_sherd",
         "name": "Burn Pottery Sherd"
     },
@@ -500,16 +492,8 @@
         "name": "Cake"
     },
     {
-        "id": "minecraft:cake_inner",
-        "name": "Cake Inner"
-    },
-    {
         "id": "minecraft:calcite",
         "name": "Calcite"
-    },
-    {
-        "id": "minecraft:calibrated_sculk_sensor_amethyst",
-        "name": "Calibrated Sculk Sensor Amethyst"
     },
     {
         "id": "minecraft:campfire",
@@ -534,10 +518,6 @@
     {
         "id": "minecraft:cauldron",
         "name": "Cauldron"
-    },
-    {
-        "id": "minecraft:cauldron_side",
-        "name": "Cauldron Side"
     },
     {
         "id": "minecraft:chain",
@@ -612,16 +592,8 @@
         "name": "Chicken"
     },
     {
-        "id": "minecraft:chiseled_bookshelf_empty",
-        "name": "Chiseled Bookshelf Empty"
-    },
-    {
-        "id": "minecraft:chiseled_bookshelf_occupied",
-        "name": "Chiseled Bookshelf Occupied"
-    },
-    {
-        "id": "minecraft:chiseled_bookshelf_side",
-        "name": "Chiseled Bookshelf Side"
+        "id": "minecraft:chiseled_bookshelf",
+        "name": "Chiseled Bookshelf"
     },
     {
         "id": "minecraft:chiseled_deepslate",
@@ -650,10 +622,6 @@
     {
         "id": "minecraft:chiseled_stone_bricks",
         "name": "Chiseled Stone Bricks"
-    },
-    {
-        "id": "minecraft:chorus_flower",
-        "name": "Chorus Flower"
     },
     {
         "id": "minecraft:chorus_fruit",
@@ -800,12 +768,8 @@
         "name": "Cracked Stone Bricks"
     },
     {
-        "id": "minecraft:crafting_table_front",
-        "name": "Crafting Table Front"
-    },
-    {
-        "id": "minecraft:crafting_table_side",
-        "name": "Crafting Table Side"
+        "id": "minecraft:crafting_table",
+        "name": "Crafting Table"
     },
     {
         "id": "minecraft:creeper_banner_pattern",
@@ -826,10 +790,6 @@
     {
         "id": "minecraft:crimson_nylium",
         "name": "Crimson Nylium"
-    },
-    {
-        "id": "minecraft:crimson_nylium_side",
-        "name": "Crimson Nylium Side"
     },
     {
         "id": "minecraft:crimson_planks",
@@ -1028,14 +988,6 @@
         "name": "Dead Tube Coral Fan"
     },
     {
-        "id": "minecraft:debug",
-        "name": "Debug"
-    },
-    {
-        "id": "minecraft:debug2",
-        "name": "Debug2"
-    },
-    {
         "id": "minecraft:deepslate",
         "name": "Deepslate"
     },
@@ -1078,46 +1030,6 @@
     {
         "id": "minecraft:deepslate_tiles",
         "name": "Deepslate Tiles"
-    },
-    {
-        "id": "minecraft:destroy_stage_0",
-        "name": "Destroy Stage 0"
-    },
-    {
-        "id": "minecraft:destroy_stage_1",
-        "name": "Destroy Stage 1"
-    },
-    {
-        "id": "minecraft:destroy_stage_2",
-        "name": "Destroy Stage 2"
-    },
-    {
-        "id": "minecraft:destroy_stage_3",
-        "name": "Destroy Stage 3"
-    },
-    {
-        "id": "minecraft:destroy_stage_4",
-        "name": "Destroy Stage 4"
-    },
-    {
-        "id": "minecraft:destroy_stage_5",
-        "name": "Destroy Stage 5"
-    },
-    {
-        "id": "minecraft:destroy_stage_6",
-        "name": "Destroy Stage 6"
-    },
-    {
-        "id": "minecraft:destroy_stage_7",
-        "name": "Destroy Stage 7"
-    },
-    {
-        "id": "minecraft:destroy_stage_8",
-        "name": "Destroy Stage 8"
-    },
-    {
-        "id": "minecraft:destroy_stage_9",
-        "name": "Destroy Stage 9"
     },
     {
         "id": "minecraft:detector_rail",
@@ -1200,16 +1112,8 @@
         "name": "Dispenser Front"
     },
     {
-        "id": "minecraft:dispenser_front_vertical",
-        "name": "Dispenser Front Vertical"
-    },
-    {
         "id": "minecraft:dragon_breath",
         "name": "Dragon Breath"
-    },
-    {
-        "id": "minecraft:dragon_egg",
-        "name": "Dragon Egg"
     },
     {
         "id": "minecraft:dried_kelp",
@@ -1226,10 +1130,6 @@
     {
         "id": "minecraft:dropper_front",
         "name": "Dropper Front"
-    },
-    {
-        "id": "minecraft:dropper_front_vertical",
-        "name": "Dropper Front Vertical"
     },
     {
         "id": "minecraft:dune_armor_trim_smithing_template",
@@ -1280,10 +1180,6 @@
         "name": "End Crystal"
     },
     {
-        "id": "minecraft:end_portal_frame_eye",
-        "name": "End Portal Frame Eye"
-    },
-    {
         "id": "minecraft:end_portal_frame_side",
         "name": "End Portal Frame Side"
     },
@@ -1324,10 +1220,6 @@
         "name": "Farmland"
     },
     {
-        "id": "minecraft:farmland_moist",
-        "name": "Farmland Moist"
-    },
-    {
         "id": "minecraft:feather",
         "name": "Feather"
     },
@@ -1344,20 +1236,12 @@
         "name": "Filled Map"
     },
     {
-        "id": "minecraft:filled_map_markings",
-        "name": "Filled Map Markings"
-    },
-    {
         "id": "minecraft:firework_rocket",
         "name": "Firework Rocket"
     },
     {
         "id": "minecraft:firework_star",
         "name": "Firework Star"
-    },
-    {
-        "id": "minecraft:firework_star_overlay",
-        "name": "Firework Star Overlay"
     },
     {
         "id": "minecraft:fire_charge",
@@ -1380,16 +1264,8 @@
         "name": "Fishing Rod"
     },
     {
-        "id": "minecraft:fishing_rod_cast",
-        "name": "Fishing Rod Cast"
-    },
-    {
-        "id": "minecraft:fletching_table_front",
-        "name": "Fletching Table Front"
-    },
-    {
-        "id": "minecraft:fletching_table_side",
-        "name": "Fletching Table Side"
+        "id": "minecraft:fletching_table",
+        "name": "Fletching Table"
     },
     {
         "id": "minecraft:flint",
@@ -1400,12 +1276,12 @@
         "name": "Flint And Steel"
     },
     {
-        "id": "minecraft:flowering_azalea_leaves",
-        "name": "Flowering Azalea Leaves"
+        "id": "minecraft:flowering_azalea",
+        "name": "Flowering Azalea"
     },
     {
-        "id": "minecraft:flowering_azalea_side",
-        "name": "Flowering Azalea Side"
+        "id": "minecraft:flowering_azalea_leaves",
+        "name": "Flowering Azalea Leaves"
     },
     {
         "id": "minecraft:flower_banner_pattern",
@@ -1418,26 +1294,6 @@
     {
         "id": "minecraft:friend_pottery_sherd",
         "name": "Friend Pottery Sherd"
-    },
-    {
-        "id": "minecraft:frogspawn",
-        "name": "Frogspawn"
-    },
-    {
-        "id": "minecraft:frosted_ice_0",
-        "name": "Frosted Ice 0"
-    },
-    {
-        "id": "minecraft:frosted_ice_1",
-        "name": "Frosted Ice 1"
-    },
-    {
-        "id": "minecraft:frosted_ice_2",
-        "name": "Frosted Ice 2"
-    },
-    {
-        "id": "minecraft:frosted_ice_3",
-        "name": "Frosted Ice 3"
     },
     {
         "id": "minecraft:furnace_front",
@@ -1668,18 +1524,6 @@
         "name": "Green Wool"
     },
     {
-        "id": "minecraft:grindstone_pivot",
-        "name": "Grindstone Pivot"
-    },
-    {
-        "id": "minecraft:grindstone_round",
-        "name": "Grindstone Round"
-    },
-    {
-        "id": "minecraft:grindstone_side",
-        "name": "Grindstone Side"
-    },
-    {
         "id": "minecraft:gunpowder",
         "name": "Gunpowder"
     },
@@ -1730,10 +1574,6 @@
     {
         "id": "minecraft:hopper_minecart",
         "name": "Hopper Minecart"
-    },
-    {
-        "id": "minecraft:hopper_outside",
-        "name": "Hopper Outside"
     },
     {
         "id": "minecraft:horn_coral",
@@ -1838,14 +1678,6 @@
     {
         "id": "minecraft:jack_o_lantern",
         "name": "Jack O Lantern"
-    },
-    {
-        "id": "minecraft:jigsaw_lock",
-        "name": "Jigsaw Lock"
-    },
-    {
-        "id": "minecraft:jigsaw_side",
-        "name": "Jigsaw Side"
     },
     {
         "id": "minecraft:jukebox_side",
@@ -1972,12 +1804,8 @@
         "name": "Leather Leggings Overlay"
     },
     {
-        "id": "minecraft:lectern_base",
-        "name": "Lectern Base"
-    },
-    {
-        "id": "minecraft:lectern_front",
-        "name": "Lectern Front"
+        "id": "minecraft:lectern",
+        "name": "Lectern"
     },
     {
         "id": "minecraft:lever",
@@ -1990,14 +1818,6 @@
     {
         "id": "minecraft:lightning_rod",
         "name": "Lightning Rod"
-    },
-    {
-        "id": "minecraft:lightning_rod_on",
-        "name": "Lightning Rod On"
-    },
-    {
-        "id": "minecraft:light_00",
-        "name": "Light 00"
     },
     {
         "id": "minecraft:light_blue_candle",
@@ -2124,12 +1944,8 @@
         "name": "Lodestone Side"
     },
     {
-        "id": "minecraft:loom_front",
-        "name": "Loom Front"
-    },
-    {
-        "id": "minecraft:loom_side",
-        "name": "Loom Side"
+        "id": "minecraft:loom",
+        "name": "Loom"
     },
     {
         "id": "minecraft:magenta_candle",
@@ -2204,10 +2020,6 @@
         "name": "Mangrove Propagule"
     },
     {
-        "id": "minecraft:mangrove_propagule_hanging",
-        "name": "Mangrove Propagule Hanging"
-    },
-    {
         "id": "minecraft:mangrove_sign",
         "name": "Mangrove Sign"
     },
@@ -2234,10 +2046,6 @@
     {
         "id": "minecraft:melon_slice",
         "name": "Melon Slice"
-    },
-    {
-        "id": "minecraft:melon_stem",
-        "name": "Melon Stem"
     },
     {
         "id": "minecraft:milk_bucket",
@@ -2364,8 +2172,8 @@
         "name": "Mutton"
     },
     {
-        "id": "minecraft:mycelium_side",
-        "name": "Mycelium Side"
+        "id": "minecraft:mycelium",
+        "name": "Mycelium"
     },
     {
         "id": "minecraft:name_tag",
@@ -2520,20 +2328,8 @@
         "name": "Oak Trapdoor"
     },
     {
-        "id": "minecraft:observer_back",
-        "name": "Observer Back"
-    },
-    {
-        "id": "minecraft:observer_back_on",
-        "name": "Observer Back On"
-    },
-    {
-        "id": "minecraft:observer_front",
-        "name": "Observer Front"
-    },
-    {
-        "id": "minecraft:observer_side",
-        "name": "Observer Side"
+        "id": "minecraft:observer",
+        "name": "Observer"
     },
     {
         "id": "minecraft:obsidian",
@@ -2648,10 +2444,6 @@
         "name": "Pink Petals"
     },
     {
-        "id": "minecraft:pink_petals_stem",
-        "name": "Pink Petals Stem"
-    },
-    {
         "id": "minecraft:pink_shulker_box",
         "name": "Pink Shulker Box"
     },
@@ -2696,52 +2488,12 @@
         "name": "Plenty Pottery Sherd"
     },
     {
-        "id": "minecraft:podzol_side",
-        "name": "Podzol Side"
+        "id": "minecraft:podzol",
+        "name": "Podzol"
     },
     {
         "id": "minecraft:pointed_dripstone",
         "name": "Pointed Dripstone"
-    },
-    {
-        "id": "minecraft:pointed_dripstone_down_base",
-        "name": "Pointed Dripstone Down Base"
-    },
-    {
-        "id": "minecraft:pointed_dripstone_down_frustum",
-        "name": "Pointed Dripstone Down Frustum"
-    },
-    {
-        "id": "minecraft:pointed_dripstone_down_middle",
-        "name": "Pointed Dripstone Down Middle"
-    },
-    {
-        "id": "minecraft:pointed_dripstone_down_tip",
-        "name": "Pointed Dripstone Down Tip"
-    },
-    {
-        "id": "minecraft:pointed_dripstone_down_tip_merge",
-        "name": "Pointed Dripstone Down Tip Merge"
-    },
-    {
-        "id": "minecraft:pointed_dripstone_up_base",
-        "name": "Pointed Dripstone Up Base"
-    },
-    {
-        "id": "minecraft:pointed_dripstone_up_frustum",
-        "name": "Pointed Dripstone Up Frustum"
-    },
-    {
-        "id": "minecraft:pointed_dripstone_up_middle",
-        "name": "Pointed Dripstone Up Middle"
-    },
-    {
-        "id": "minecraft:pointed_dripstone_up_tip",
-        "name": "Pointed Dripstone Up Tip"
-    },
-    {
-        "id": "minecraft:pointed_dripstone_up_tip_merge",
-        "name": "Pointed Dripstone Up Tip Merge"
     },
     {
         "id": "minecraft:poisonous_potato",
@@ -2790,22 +2542,6 @@
     {
         "id": "minecraft:potato",
         "name": "Potato"
-    },
-    {
-        "id": "minecraft:potatoes_stage0",
-        "name": "Potatoes Stage0"
-    },
-    {
-        "id": "minecraft:potatoes_stage1",
-        "name": "Potatoes Stage1"
-    },
-    {
-        "id": "minecraft:potatoes_stage2",
-        "name": "Potatoes Stage2"
-    },
-    {
-        "id": "minecraft:potatoes_stage3",
-        "name": "Potatoes Stage3"
     },
     {
         "id": "minecraft:potion",
@@ -2864,20 +2600,16 @@
         "name": "Pufferfish Bucket"
     },
     {
+        "id": "minecraft:pumpkin",
+        "name": "Pumpkin"
+    },
+    {
         "id": "minecraft:pumpkin_pie",
         "name": "Pumpkin Pie"
     },
     {
         "id": "minecraft:pumpkin_seeds",
         "name": "Pumpkin Seeds"
-    },
-    {
-        "id": "minecraft:pumpkin_side",
-        "name": "Pumpkin Side"
-    },
-    {
-        "id": "minecraft:pumpkin_stem",
-        "name": "Pumpkin Stem"
     },
     {
         "id": "minecraft:purple_candle",
@@ -2960,10 +2692,6 @@
         "name": "Rail"
     },
     {
-        "id": "minecraft:rail_corner",
-        "name": "Rail Corner"
-    },
-    {
         "id": "minecraft:raiser_armor_trim_smithing_template",
         "name": "Raiser Armor Trim Smithing Template"
     },
@@ -2992,8 +2720,8 @@
         "name": "Raw Iron Block"
     },
     {
-        "id": "minecraft:recovery_compass_00",
-        "name": "Recovery Compass 00"
+        "id": "minecraft:recovery_compass",
+        "name": "Recovery Compass"
     },
     {
         "id": "minecraft:redstone",
@@ -3022,10 +2750,6 @@
     {
         "id": "minecraft:redstone_lamp",
         "name": "Redstone Lamp"
-    },
-    {
-        "id": "minecraft:redstone_lamp_on",
-        "name": "Redstone Lamp On"
     },
     {
         "id": "minecraft:redstone_ore",
@@ -3106,10 +2830,6 @@
     {
         "id": "minecraft:repeater",
         "name": "Repeater"
-    },
-    {
-        "id": "minecraft:repeater_on",
-        "name": "Repeater On"
     },
     {
         "id": "minecraft:respawn_anchor_side0",
@@ -3220,20 +2940,12 @@
         "name": "Small Amethyst Bud"
     },
     {
-        "id": "minecraft:smithing_table_front",
-        "name": "Smithing Table Front"
+        "id": "minecraft:smithing_table",
+        "name": "Smithing Table"
     },
     {
-        "id": "minecraft:smithing_table_side",
-        "name": "Smithing Table Side"
-    },
-    {
-        "id": "minecraft:smoker_front",
-        "name": "Smoker Front"
-    },
-    {
-        "id": "minecraft:smoker_side",
-        "name": "Smoker Side"
+        "id": "minecraft:smoker",
+        "name": "Smoker"
     },
     {
         "id": "minecraft:smooth_basalt",
@@ -3250,54 +2962,6 @@
     {
         "id": "minecraft:sniffer_egg",
         "name": "Sniffer Egg"
-    },
-    {
-        "id": "minecraft:sniffer_egg_not_cracked_east",
-        "name": "Sniffer Egg Not Cracked East"
-    },
-    {
-        "id": "minecraft:sniffer_egg_not_cracked_north",
-        "name": "Sniffer Egg Not Cracked North"
-    },
-    {
-        "id": "minecraft:sniffer_egg_not_cracked_south",
-        "name": "Sniffer Egg Not Cracked South"
-    },
-    {
-        "id": "minecraft:sniffer_egg_not_cracked_west",
-        "name": "Sniffer Egg Not Cracked West"
-    },
-    {
-        "id": "minecraft:sniffer_egg_slightly_cracked_east",
-        "name": "Sniffer Egg Slightly Cracked East"
-    },
-    {
-        "id": "minecraft:sniffer_egg_slightly_cracked_north",
-        "name": "Sniffer Egg Slightly Cracked North"
-    },
-    {
-        "id": "minecraft:sniffer_egg_slightly_cracked_south",
-        "name": "Sniffer Egg Slightly Cracked South"
-    },
-    {
-        "id": "minecraft:sniffer_egg_slightly_cracked_west",
-        "name": "Sniffer Egg Slightly Cracked West"
-    },
-    {
-        "id": "minecraft:sniffer_egg_very_cracked_east",
-        "name": "Sniffer Egg Very Cracked East"
-    },
-    {
-        "id": "minecraft:sniffer_egg_very_cracked_north",
-        "name": "Sniffer Egg Very Cracked North"
-    },
-    {
-        "id": "minecraft:sniffer_egg_very_cracked_south",
-        "name": "Sniffer Egg Very Cracked South"
-    },
-    {
-        "id": "minecraft:sniffer_egg_very_cracked_west",
-        "name": "Sniffer Egg Very Cracked West"
     },
     {
         "id": "minecraft:snort_pottery_sherd",
@@ -3368,14 +3032,6 @@
         "name": "Sponge"
     },
     {
-        "id": "minecraft:spore_blossom",
-        "name": "Spore Blossom"
-    },
-    {
-        "id": "minecraft:spore_blossom_base",
-        "name": "Spore Blossom Base"
-    },
-    {
         "id": "minecraft:spruce_boat",
         "name": "Spruce Boat"
     },
@@ -3418,10 +3074,6 @@
     {
         "id": "minecraft:spyglass",
         "name": "Spyglass"
-    },
-    {
-        "id": "minecraft:spyglass_model",
-        "name": "Spyglass Model"
     },
     {
         "id": "minecraft:stick",

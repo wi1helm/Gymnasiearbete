@@ -1,5 +1,7 @@
 
-
+body{
+    background-color: #4b4b4b;
+}
 #generator-container {
     height: 98vh;
     display: flex;
@@ -22,12 +24,12 @@
 .inventory-grid {
     display: flex;
     flex-wrap: wrap;
-    max-width: calc(70px * 9);
+    max-width: calc(102px * 9);
 }
 
 .slot {
-    width: 64px;
-    height: 64px;
+    width: 96px;
+    height: 96px;
     margin: 1px;
     background-color: rgb(140,138,141);
     border: 2px solid rgb(43,42,44);
@@ -40,15 +42,15 @@
 
 .item-icon-chest{
     image-rendering: pixelated;
-    height: 60px;
-    width: 60px;
+    height: 90px;
+    width: 90px;
 }
 .item-icon-list{
     border: 2px solid rgb(43,42,44);
     background-color: rgb(140,138,141) ;
     image-rendering: pixelated;
-    height: 60px;
-    width: 60px;
+    height: 90px;
+    width: 90px;
 }
 .item-settings{
     margin-left: 10px;
@@ -56,10 +58,11 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    max-width: 10%;
+    max-width: 20%;
 }
 
 #search-container{
+    
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -68,24 +71,25 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    background-color: white;
-    max-height: calc(68px * 5); 
+    background-color: #4b4b4b;
+    max-height: calc(100px * 5); 
     justify-content: center;
     margin-right: 10px;
 }
 
 .item-list{
-    width: 134px;
+    width: 200px;
     display: flex;
     flex-wrap: wrap;
-    max-height: calc(68px * 5); 
+    max-height: calc(100px * 5); 
     flex-direction: column;
     justify-content: center;
 }
 
 #search-input {
-    width: 131px;
+    width: 194px;
     height: 20px;
+    margin-bottom: 5px;
     box-sizing: border-box;
 }
 
@@ -133,9 +137,10 @@
 .content-editable {
     /* Add your styling for contenteditable elements here */
     border: 1px solid #ccc;
+    width: 300px;
     padding: 5px;
-    min-height: 16px;
-    font-size: 14px;
+    min-height: 18px;
+    font-size: 16px;
     color:white;
 }
 
