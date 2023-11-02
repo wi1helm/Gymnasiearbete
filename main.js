@@ -232,7 +232,7 @@ function generateJSON() {
         };
     });
     jsonData = { slots: formattedSlots };
-    console.log(jsonData);
+    //console.log(jsonData);
 }
 
 // Function to update the displayed icon for the active slot
@@ -279,6 +279,19 @@ function updateJSON() {
 // Function to extract name segments from input
 function nameSegmentsFromInput(htmlString) {
     console.log(htmlString)
+
+    const variableRegex = /\$\((.*?)\)/g;
+    const variables = [];
+    let modifiedStr = htmlString;
+
+    let match;
+    while ((match = variableRegex.exec(htmlString)) !== null) {
+        const variable = match[0]; // Get the entire matched variable, including $(...)
+        variables.push(variable);
+        modifiedStr = modifiedStr.replace(variable, '<i>€¤#</i>'); // Remove the variable from the string
+    }
+    console.log(variables, modifiedStr)
+    htmlString = modifiedStr
     // Arrays to store text and styles
     const textSegments = [];
     const colorStyles = [];
@@ -354,7 +367,21 @@ function nameSegmentsFromInput(htmlString) {
         bold: boldStyles[index],
         italic: italicStyles[index],
     }));
-
+    const varIndex = []
+    result.forEach((segment, index) => {
+        if (segment.text === '€¤#' && segment.italic === true) {
+            varIndex.push(index)
+        }
+    });
+    varIndex.forEach((variableIndex, variableArrayIndex) => {
+        if (variableArrayIndex < variables.length) {
+            console.log(variables[variableIndex])
+            result[variableIndex].text = variables[variableArrayIndex]
+            };
+        }
+    )
+    
+    console.log(result)
     return result
 }
 

@@ -3,6 +3,10 @@ function generateFiles(jsonData) {
     if (guiName == ""){
         return
     }
+
+    let additionalFiles = {}; // Store additional files
+    const uniqueVariables = new Set(); // Set to store unique variables
+    hasVariables = false;
     const itemsToSummon = [];
     const uniqueItems = new Set();
 
@@ -19,14 +23,31 @@ function generateFiles(jsonData) {
             const displayTag = {};
 
             if (slot.Name.length > 0) {
-                displayTag.Name = JSON.stringify(slot.Name);
+                const nameArray = slot.Name.map(item => {
+                    if (item.text.startsWith("$(") && item.text.endsWith(")")) {
+                        hasVariables = true; // Set the variable flag 
+                        uniqueVariables.add(item.text); // Add unique variable to the set
+                    }
+                    return JSON.stringify(item);
+                });
+                displayTag.Name = `[${nameArray.join(",")}]`;
             }
 
             if (slot.Lore.length > 0) {
                 displayTag.Lore = slot.Lore.map(line => {
+
+                    line.forEach(item => {
+                        if (item.text.startsWith("$(") && item.text.endsWith(")")) {
+                            hasVariables = true; // Set the variable flag 
+                            uniqueVariables.add(item.text); // Add unique variable to the set
+                        }
+                    });
+
                     return JSON.stringify(line);
                 });
             }
+            
+            
 
             if (slot.Function) {
                 displayTag.Function = `${slot.Function}`;
@@ -43,7 +64,8 @@ function generateFiles(jsonData) {
 
     const itemsCommand = `Items:[${itemsToSummon.join(',')}]`;
 
-    const summonCommand = `summon chest_minecart ~ ~1 ~ {Tags:["${guiName}"],${itemsCommand}}`;
+    const summonCommand = hasVariables ? `$summon chest_minecart ~ ~1 ~ {Tags:["${guiName}"],${itemsCommand}}` :
+        `summon chest_minecart ~ ~1 ~ {Tags:["${guiName}"],${itemsCommand}}`;
 
     const initFunctionContent = `# Initialize chest minecart with custom items\n${summonCommand}
 data modify storage minecraft:gui1 Items set value []
@@ -98,8 +120,28 @@ execute as 00000070-0000-006e-0000-007400000078 run function general:${guiName}/
 
     const noFunctionContent = 'return 0';
 
-    const tickContent = `execute store success score @a test run clear @a #general:${guiName}_items{${guiName}:1b} 0
-execute at @a[scores={test=1..}] run function general:${guiName}/get_name`;
+    const tickContent = `
+execute store success score @a test run clear @a #general:${guiName}_items{${guiName}:1b} 0
+execute at @a[scores={test=1..}] run function general:${guiName}/get_name
+execute at @a[scores={test=1..}] run function general:${guiName}/update_varible`;
+
+
+    // Check if the JSON data contains variables
+    if (hasVariables) {
+        if (uniqueVariables.size > 0) {
+            // Convert the set of unique variables to an array
+            const uniqueVariablesArray = Array.from(uniqueVariables).map(variable => variable.slice(2, -1));
+
+            // Generate the varible_init.mcfunction content
+            const varibleInitContent = `data modify storage ${guiName} varibles set value {${uniqueVariablesArray.map(variable => `"${variable}":"default text"`).join(',')}}
+function general:${guiName}/init with storage minecraft:${guiName} varibles`;
+            // Add content for varible_init.mcfunction and update_varible.mcfunction
+            additionalFiles['varible_init.mcfunction'] = varibleInitContent;
+            additionalFiles['update_varible.mcfunction'] = 'Your content for update_varible.mcfunction here';
+        }
+    }
+
+    
 
     // Define an object with filename-content pairs
     const filesToGenerate = {
@@ -125,6 +167,11 @@ execute at @a[scores={test=1..}] run function general:${guiName}/get_name`;
     // Add each file to the GUI folder
     for (const fileName in filesToGenerate) {
         guiFolder.file(fileName, filesToGenerate[fileName]);
+    }
+
+    // Add the additional files to the GUI folder
+    for (const fileName in additionalFiles) {
+        guiFolder.file(fileName, additionalFiles[fileName]);
     }
 
     // Generate the JSON file with unique items
@@ -154,5 +201,4 @@ execute at @a[scores={test=1..}] run function general:${guiName}/get_name`;
 document.getElementById('download-button').addEventListener('click', () => {
     generateFiles(jsonData); // Pass the JSON data to the generation function
 });
-
 
