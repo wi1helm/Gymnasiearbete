@@ -66,9 +66,15 @@ function generateFiles(jsonData) {
 
     const summonCommand = hasVariables ? `$summon chest_minecart ~ ~1 ~ {Tags:["${guiName}"],${itemsCommand}}` :
         `summon chest_minecart ~ ~1 ~ {Tags:["${guiName}"],${itemsCommand}}`;
+    const dataStorage = hasVariables ? `$data modify storage minecraft:${guiName} Items set value [${itemsToSummon.join(',')}]`:
+    `data modify storage minecraft:${guiName} Items set value [${itemsToSummon.join(',')}]`
+    const initFunctionContent = `
+scoreboard objectives add loop dummy
+scoreboard objectives add ${guiName}_inv_check dummy
+data modify storage minecraft:${guiName}_used settings set value {"name":"@a","slot":"","id":"","nbt":"","function":"general:boat_shop/no_function"}
 
-    const initFunctionContent = `# Initialize chest minecart with custom items\n${summonCommand}
-data modify storage minecraft:gui1 Items set value []
+# Initialize chest minecart with custom items\n${summonCommand}
+${dataStorage}
 function general:${guiName}/loop_start`;
 
     const loopStartContent = `execute if score .j loop matches 0.. run scoreboard players add .j loop 1
@@ -76,25 +82,25 @@ execute unless score .j loop matches -2147483648..2147483647 run scoreboard play
 execute store result storage loop index int 1 run scoreboard players get .j loop
 function general:${guiName}/loop_execute with storage minecraft:loop`;
 
-    const loopExecuteContent = `$data modify storage minecraft:gui1 Items append from entity @e[tag=gui1,limit=1] Items[$(index)]
+    const loopExecuteContent = `$data modify storage minecraft:${guiName} Items append from entity @e[tag=${guiName},limit=1] Items[$(index)]
 execute if score .j loop matches 27.. run scoreboard players reset .j loop
 execute if score .j loop matches ..26 run function general:${guiName}/loop_start`;
 
     const finishGuiContent = `
-$item replace entity @e[tag=gui1] container.$(slot) with $(id)$(nbt) 1
-$clear $(name) #general:gui1_items{gui1:1b}
+$item replace entity @e[tag=${guiName}] container.$(slot) with $(id)$(nbt) 1
+$clear $(name) #general:${guiName}_items{${guiName}:1b}
 $execute as $(name) at @s run function $(function)
-data modify storage minecraft:gui1_used settings set value {"name":"@a","slot":"","id":"","nbt":"","function":"general:${guiName}/no_function"}`;
+data modify storage minecraft:${guiName}_used settings set value {"name":"@a","slot":"","id":"","nbt":"","function":"general:${guiName}/no_function"}`;
 
     const loadOnceContent = `summon text_display 0 0 0 {Tags:["pnt.name"],UUID:[I;112,110,116,120]}
 scoreboard objectives add pnt.left minecraft.custom:minecraft.leave_game
 scoreboard players set #4 pnt.left 4`;
 
-    const checkEmptySlotContent = `$execute unless data entity @e[tag=gui1,limit=1] Items[{Slot:$(index)b}] run data modify storage minecraft:gui1_used settings.nbt set from storage minecraft:gui1 Items[$(index)].tag
-$execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run data modify storage minecraft:gui1_used settings.id set from storage minecraft:gui1 Items[$(index)].id
-$execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run data modify storage minecraft:gui1_used settings.function set from storage minecraft:gui1 Items[$(index)].tag.display.Function
-$execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run data modify storage minecraft:gui1_used settings.slot set value "$(index)"
-$execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run function general:${guiName}/finish_gui with storage minecraft:gui1_used settings
+    const checkEmptySlotContent = `$execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run data modify storage minecraft:${guiName}_used settings.nbt set from storage minecraft:${guiName} Items[$(index)].tag
+$execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run data modify storage minecraft:${guiName}_used settings.id set from storage minecraft:${guiName} Items[$(index)].id
+$execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run data modify storage minecraft:${guiName}_used settings.function set from storage minecraft:${guiName} Items[$(index)].tag.display.Function
+$execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run data modify storage minecraft:${guiName}_used settings.slot set value "$(index)"
+$execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run function general:${guiName}/finish_gui with storage minecraft:${guiName}_used settings
 $execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run scoreboard players reset .i loop
 $execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run return 0
 function general:${guiName}/get_empty_slot`;
@@ -121,9 +127,9 @@ execute as 00000070-0000-006e-0000-007400000078 run function general:${guiName}/
     const noFunctionContent = 'return 0';
 
     const tickContent = `
-execute store success score @a test run clear @a #general:${guiName}_items{${guiName}:1b} 0
-execute at @a[scores={test=1..}] run function general:${guiName}/get_name
-execute at @a[scores={test=1..}] run function general:${guiName}/update_varible`;
+execute store success score @a ${guiName}_inv_check run clear @a #general:${guiName}_items{${guiName}:1b} 0
+execute at @a[scores={${guiName}_inv_check=1..}] run function general:${guiName}/get_name
+execute at @a[scores={${guiName}_inv_check=1..}] run function general:${guiName}/update_varible with storage ${guiName} varibles`;
 
 
     // Check if the JSON data contains variables
@@ -133,11 +139,65 @@ execute at @a[scores={test=1..}] run function general:${guiName}/update_varible`
             const uniqueVariablesArray = Array.from(uniqueVariables).map(variable => variable.slice(2, -1));
 
             // Generate the varible_init.mcfunction content
-            const varibleInitContent = `data modify storage ${guiName} varibles set value {${uniqueVariablesArray.map(variable => `"${variable}":"default text"`).join(',')}}
+            const varibleInitContent = `data modify storage ${guiName} varibles set value {${uniqueVariablesArray.map(variable => `"${variable}":"[defualt value]"`).join(',')}}
 function general:${guiName}/init with storage minecraft:${guiName} varibles`;
             // Add content for varible_init.mcfunction and update_varible.mcfunction
             additionalFiles['varible_init.mcfunction'] = varibleInitContent;
-            additionalFiles['update_varible.mcfunction'] = 'Your content for update_varible.mcfunction here';
+
+            // Initialize an array to store item replace commands
+            const itemReplaceCommands = [];
+           
+            for (let index = 0; index < 27; index++) {
+                hasVariables = false;
+                const slot = jsonData.slots[index][`slot:${index}`];
+                const itemName = slot.Item.id;
+                const tagParts = [];
+                const itemCommand = `{${guiName}:1b`
+
+                if (slot.Name.length > 0 || slot.Lore.length > 0) {
+                    const displayTag = {};
+
+                    if (slot.Name.length > 0) {
+                        const nameArray = slot.Name.map(item => {
+                            if (item.text.startsWith("$(") && item.text.endsWith(")")) {
+                                hasVariables = true; // Set the variable flag 
+                                uniqueVariables.add(item.text); // Add unique variable to the set
+                            }
+                            return JSON.stringify(item);
+                        });
+                        displayTag.Name = `[${nameArray.join(",")}]`;
+                    }
+        
+                    if (slot.Lore.length > 0) {
+                        displayTag.Lore = slot.Lore.map(line => {
+        
+                            line.forEach(item => {
+                                if (item.text.startsWith("$(") && item.text.endsWith(")")) {
+                                    hasVariables = true; // Set the variable flag 
+                                    uniqueVariables.add(item.text); // Add unique variable to the set
+                                }
+                            });
+        
+                            return JSON.stringify(line);
+                        });
+                    }
+                    if (slot.Function) {
+                        displayTag.Function = `${slot.Function}`;
+                    }
+        
+                    tagParts.push(`display:${JSON.stringify(displayTag)}`);
+                }
+                const tag = tagParts.join(',');
+                const itemCommandFullTag = `${itemCommand}${tag ? `,${tag}` : ''}`;
+                if (hasVariables){
+                itemReplaceCommands.push(`$item replace entity @e[tag=${guiName}] container.${index} with ${itemName}${itemCommandFullTag}}`);
+                }
+            }
+
+            
+            const updateVaribleContent = itemReplaceCommands.join('\n');
+
+            additionalFiles['update_varible.mcfunction'] = updateVaribleContent;
         }
     }
 
