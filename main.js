@@ -1,21 +1,27 @@
-// Initialize the activeSlot variable with 0
-let activeSlot = 0;
-const jsonOutput = document.getElementById('json-output');
-const inventoryGrid = document.querySelector('.inventory-grid');
-let jsonData = {}; // To store the JSON data
 
+
+const inventoryGrid = document.querySelector('.inventory-grid');
 // Initialize an array to store all items
 let allItems = [];
 
+let jsonData = {
+    pages: {
+        main: { slots: [] }, // Initial page 'main' with empty slots
+    },
+};
+
+let activePage = 'main';
+let activeSlot = 0;
+
 // Initialize an array to store slot-specific settings
-const slotSettings = Array.from({ length: 27 }, () => ({
+let slotSettings = Array.from({ length: 27 }, () => ({
     type: 'minecraft:gray_stained_glass_pane',
     name: [], // Name as an array of segments
     lore: [], // Lore as an array of segments
     function: '',
     icon: 'gray_stained_glass_pane.png',
     nameDisplay: "",
-    loreDisplay: ""
+    loreDisplay: "",
 }));
 
 // Load test items from Minecraft JSON file
@@ -29,6 +35,67 @@ fetch('minecraft_items.json')
         openItemMenu(activeSlot);
         setInterval(generateJSON, 1000);
     });
+
+
+function createNewPage(pageName){
+    activePage = pageName;
+    slotSettings = Array.from({ length: 27 }, () => ({
+        type: 'minecraft:gray_stained_glass_pane',
+        name: [], // Name as an array of segments
+        lore: [], // Lore as an array of segments
+        function: '',
+        icon: 'gray_stained_glass_pane.png',
+        nameDisplay: "",
+        loreDisplay: "",
+    }));
+    loadPage(pageName);
+
+}
+
+function loadPage(pageName) {
+    document.querySelector('#current-page').innerHTML = `Current Page: ${activePage}`;
+    if (jsonData.pages[pageName] && jsonData.pages[pageName].slots) {
+        slotSettings = parseFormattedSlots(jsonData.pages[pageName].slots);
+        console.log(slotSettings);
+    }
+    loadPageItemSettings()
+}
+
+
+function switchPage(pageName){
+    activePage = pageName;
+    loadPage(pageName);
+    loadItemSettings(activeSlot)
+}
+
+function loadPageItemSettings() {
+    for (let slot = 0; slot < 27; slot++) {
+        const selectedItem = slotSettings[slot];
+        
+        //document.querySelector('.item-settings select').value = selectedItem.type;
+        console.log(slotSettings)
+        document.querySelector('.item-settings #name_input').innerHTML = selectedItem.nameDisplay;
+        document.querySelector('.item-settings #function_input').value = selectedItem.function;
+        document.querySelector('.item-settings #lore_input').innerHTML = selectedItem.loreDisplay;
+
+        const iconElement = document.querySelector(`img[data-slot="${slot}"]`);
+        if (iconElement) {
+            iconElement.src = `item/${selectedItem.icon}`;
+            iconElement.alt = '';
+        }
+    }  
+}
+// Event listener for creating a new page
+document.querySelector('#create-page').addEventListener('click', () => {
+    const pageName = prompt('Enter a name for the new page:');
+    createNewPage(pageName);
+});
+document.querySelector('#switch-page').addEventListener('click', () => {
+    const pageName = prompt('Enter a name for the page:');
+    switchPage(pageName);
+});
+
+
 
 function createInventoryGrid() {
     const inventoryGrid = document.querySelector('.inventory-grid');
@@ -202,6 +269,40 @@ function loadItemSettings(slot) {
 
     
 }
+function parseFormattedSlots(formattedSlots) {
+    return formattedSlots.map((slot, index) => {
+        const {
+            Item: { id },
+            Name,
+            Lore,
+            NameDisplay,
+            LoreDisplay,
+            Function,
+            Page,
+            Icon,
+        } = slot[`slot:${index}`];
+
+        const type = id;
+        const name = Name;
+        const lore = Lore;
+        const nameDisplay = NameDisplay;
+        const loreDisplay = LoreDisplay;
+        const func = Function || '';
+        const page = Page || '';
+        const icon = Icon || '';
+
+        return {
+            type,
+            name,
+            lore,
+            nameDisplay,
+            loreDisplay,
+            function: func,
+            page,
+            icon,
+        };
+    });
+}
 
 function generateJSON() {
     const formattedSlots = slotSettings.map((settings, index) => {
@@ -210,30 +311,41 @@ function generateJSON() {
             // Add more properties as needed
         };
 
-        const name = settings.name
-        const lore = settings.lore
+        const name = settings.name;
+        const lore = settings.lore;
+        const nameDisplay = settings.nameDisplay;
+        const loreDisplay = settings.loreDisplay;
 
         const func = settings.function || '';
-        const icon = settings.icon || '';
+        const page = '';
+        let icon = settings.icon || ''; // Initialize icon
+
+        if (settings.type) {
+            icon = settings.type.replace('minecraft:', '') + '.png';
+        }
 
         // Update the icon for the active slot in slotSettings
-        if (settings.type) {
-            settings.icon = settings.type.replace('minecraft:', '') + '.png';
-        }
+        settings.icon = icon;
 
         return {
             [`slot:${index}`]: {
                 Item: item,
                 Name: name,
                 Lore: lore,
+                NameDisplay: nameDisplay,
+                LoreDisplay: loreDisplay,
                 Function: func,
+                page: page,
                 Icon: icon,
             },
         };
     });
-    jsonData = { slots: formattedSlots };
-    //console.log(jsonData);
+
+    jsonData.pages[activePage] = { slots: formattedSlots };
+
+    console.log(jsonData);
 }
+
 
 // Function to update the displayed icon for the active slot
 function updateIconDisplay(activeSlot, iconFileName) {

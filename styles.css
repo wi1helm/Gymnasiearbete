@@ -148,3 +148,7 @@ body{
     display: flex;
     flex-direction: row;
 }
+
+#current-page{
+    margin: 5px;
+}
