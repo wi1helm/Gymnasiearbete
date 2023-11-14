@@ -19,6 +19,7 @@ let slotSettings = Array.from({ length: 27 }, () => ({
     name: [], // Name as an array of segments
     lore: [], // Lore as an array of segments
     function: '',
+    page: '',
     icon: 'gray_stained_glass_pane.png',
     nameDisplay: "",
     loreDisplay: "",
@@ -33,7 +34,9 @@ fetch('minecraft_items.json')
         createItemMenu(allItems);
         createItemList(allItems);
         openItemMenu(activeSlot);
+        generateJSON()
         setInterval(generateJSON, 1000);
+        populatePageSelector()
     });
 
 
@@ -44,11 +47,15 @@ function createNewPage(pageName){
         name: [], // Name as an array of segments
         lore: [], // Lore as an array of segments
         function: '',
+        page: '',
         icon: 'gray_stained_glass_pane.png',
         nameDisplay: "",
         loreDisplay: "",
     }));
     loadPage(pageName);
+    generateJSON()
+    populatePageSelector()
+    
 
 }
 
@@ -56,7 +63,6 @@ function loadPage(pageName) {
     document.querySelector('#current-page').innerHTML = `Current Page: ${activePage}`;
     if (jsonData.pages[pageName] && jsonData.pages[pageName].slots) {
         slotSettings = parseFormattedSlots(jsonData.pages[pageName].slots);
-        console.log(slotSettings);
     }
     loadPageItemSettings()
 }
@@ -72,10 +78,9 @@ function loadPageItemSettings() {
     for (let slot = 0; slot < 27; slot++) {
         const selectedItem = slotSettings[slot];
         
-        //document.querySelector('.item-settings select').value = selectedItem.type;
-        console.log(slotSettings)
         document.querySelector('.item-settings #name_input').innerHTML = selectedItem.nameDisplay;
         document.querySelector('.item-settings #function_input').value = selectedItem.function;
+        document.querySelector('.item-settings #page_input').value = selectedItem.page; // Assuming you have an input for page link
         document.querySelector('.item-settings #lore_input').innerHTML = selectedItem.loreDisplay;
 
         const iconElement = document.querySelector(`img[data-slot="${slot}"]`);
@@ -87,12 +92,52 @@ function loadPageItemSettings() {
 }
 // Event listener for creating a new page
 document.querySelector('#create-page').addEventListener('click', () => {
-    const pageName = prompt('Enter a name for the new page:');
-    createNewPage(pageName);
+    const pageInput = document.querySelector('#page-name-input');
+
+    if (pageInput.value) {
+        const pageName = pageInput.value;
+        createNewPage(pageName);
+        pageInput.value = ""
+    } else {
+        alert('Please enter a page name.');
+    }
 });
-document.querySelector('#switch-page').addEventListener('click', () => {
-    const pageName = prompt('Enter a name for the page:');
-    switchPage(pageName);
+
+// Function to populate the dropdown with page names
+function populatePageSelector() {
+    const pageSelector = document.getElementById('page-selector');
+
+    // Clear existing options
+    pageSelector.innerHTML = '';
+
+    // Create an array to store page names
+    const pageNames = [activePage];
+
+    // Iterate over page names in jsonData (excluding the active page) and add them to the array
+    for (const pageName in jsonData.pages) {
+        if (pageName !== activePage) {
+            pageNames.push(pageName);
+        }
+    }
+
+    // Iterate over the sorted page names array and add them as options
+    for (const pageName of pageNames) {
+        const option = document.createElement('option');
+        option.value = pageName;
+        option.textContent = pageName;
+        pageSelector.appendChild(option);
+    }
+}
+
+// Event listener for the page selector change
+document.getElementById('page-selector').addEventListener('change', function () {
+    const selectedPageName = this.value;
+
+    if (selectedPageName) {
+        switchPage(selectedPageName);
+    } else {
+        alert('Please select a page.');
+    }
 });
 
 
@@ -137,6 +182,12 @@ function createItemMenu(items) {
     itemFunctionInput.placeholder = 'Function (optional)';
     itemFunctionInput.id = "function_input";
     itemFunctionInput.spellcheck = false
+
+    const itemPageInput = document.createElement('input');
+    itemPageInput.placeholder = 'Page Link (optional)';
+    itemPageInput.id = "page_input";
+    itemPageInput.spellcheck = false
+
     
     // Create contenteditable divs for item name and lore
     const itemNameInput = document.createElement('div');
@@ -206,6 +257,7 @@ function createItemMenu(items) {
     //itemDropdown.addEventListener('change', updateJSON);
     itemNameInput.addEventListener('input', updateJSON);
     itemFunctionInput.addEventListener('input', updateJSON);
+    itemPageInput.addEventListener('input', updateJSON);
     itemLoreInput.addEventListener('input', updateJSON);
 
     const styleButtons = document.createElement('div')
@@ -221,6 +273,7 @@ function createItemMenu(items) {
     itemMenu.appendChild(itemNameInput);
     itemMenu.appendChild(itemLoreInput);
     itemMenu.appendChild(itemFunctionInput);
+    itemMenu.appendChild(itemPageInput);
     
     // Add the event listener for the search input
     const searchInput = document.getElementById('search-input');
@@ -265,6 +318,7 @@ function loadItemSettings(slot) {
     //document.querySelector('.item-settings select').value = selectedItem.type;
     document.querySelector('.item-settings #name_input').innerHTML = selectedItem.nameDisplay;
     document.querySelector('.item-settings #function_input').value = selectedItem.function;
+    document.querySelector('.item-settings #page_input').value = selectedItem.page;
     document.querySelector('.item-settings #lore_input').innerHTML = selectedItem.loreDisplay;
 
     
@@ -317,7 +371,7 @@ function generateJSON() {
         const loreDisplay = settings.loreDisplay;
 
         const func = settings.function || '';
-        const page = '';
+        const page = settings.page || '';
         let icon = settings.icon || ''; // Initialize icon
 
         if (settings.type) {
@@ -326,7 +380,6 @@ function generateJSON() {
 
         // Update the icon for the active slot in slotSettings
         settings.icon = icon;
-
         return {
             [`slot:${index}`]: {
                 Item: item,
@@ -335,14 +388,13 @@ function generateJSON() {
                 NameDisplay: nameDisplay,
                 LoreDisplay: loreDisplay,
                 Function: func,
-                page: page,
+                Page: page,
                 Icon: icon,
             },
         };
     });
 
     jsonData.pages[activePage] = { slots: formattedSlots };
-
     console.log(jsonData);
 }
 
@@ -359,10 +411,11 @@ function updateIconDisplay(activeSlot, iconFileName) {
 
 function updateJSON() {
     const activeSlot = document.querySelector('.item-settings').dataset.activeSlot;
-    //const selectedOption = document.querySelector('.item-settings select').value;
-    const itemName = document.querySelector('.item-settings #name_input').innerHTML; // Get name from content-editable div
+    const itemName = document.querySelector('.item-settings #name_input').innerHTML;
     const itemFunction = document.querySelector('.item-settings #function_input').value;
-    const itemLore = document.querySelector('.item-settings #lore_input').innerHTML; // Get lore from textarea
+    const itemPage = document.querySelector('.item-settings #page_input').value;
+    const itemLore = document.querySelector('.item-settings #lore_input').innerHTML;
+
 
     // Update the icon for the active slot in slotSettings
     //slotSettings[activeSlot].icon = selectedOption.replace('minecraft:', '') + '.png';
@@ -374,14 +427,14 @@ function updateJSON() {
     } else {
         slotSettings[activeSlot].name = []; // Set to an empty array if null
     }
-
     // Handle loreSegmentsFromInput similarly (checking for null)
     const loreSegments = loreSegmentsFromInput(itemLore);
     slotSettings[activeSlot].lore = loreSegments;
     slotSettings[activeSlot].function = itemFunction || '';
-    slotSettings[activeSlot].icon = slotSettings[activeSlot].icon; // Set the icon
-    slotSettings[activeSlot].loreDisplay = itemLore
-    slotSettings[activeSlot].nameDisplay = itemName
+    slotSettings[activeSlot].page = itemPage || '';
+    slotSettings[activeSlot].icon = slotSettings[activeSlot].icon;
+    slotSettings[activeSlot].loreDisplay = itemLore;
+    slotSettings[activeSlot].nameDisplay = itemName;
 
     // Update the displayed icon for the active slot
     updateIconDisplay(activeSlot, slotSettings[activeSlot].icon);
@@ -390,7 +443,6 @@ function updateJSON() {
 
 // Function to extract name segments from input
 function nameSegmentsFromInput(htmlString) {
-    console.log(htmlString)
 
     const variableRegex = /\$\((.*?)\)/g;
     const variables = [];
@@ -402,7 +454,6 @@ function nameSegmentsFromInput(htmlString) {
         variables.push(variable);
         modifiedStr = modifiedStr.replace(variable, '<i>€¤#</i>'); // Remove the variable from the string
     }
-    console.log(variables, modifiedStr)
     htmlString = modifiedStr
     // Arrays to store text and styles
     const textSegments = [];
@@ -487,13 +538,13 @@ function nameSegmentsFromInput(htmlString) {
     });
     varIndex.forEach((variableIndex, variableArrayIndex) => {
         if (variableArrayIndex < variables.length) {
-            console.log(variables[variableIndex])
+            
             result[variableIndex].text = variables[variableArrayIndex]
             };
         }
     )
     
-    console.log(result)
+    
     return result
 }
 
@@ -535,7 +586,6 @@ function loreSegmentsFromInput(inputLines) {
             return segment;
         }
     });
-    console.log(finalProcessedArray)
     return finalProcessedArray;
 }
 
@@ -610,16 +660,7 @@ inventoryGrid.addEventListener('drop', (event) => {
     activeSlot = targetSlot;
     openItemMenu(activeSlot);
     // Ensure that slotSettings is an array with a length of at least 27
-    if (!Array.isArray(slotSettings)) {
-        slotSettings = Array.from({ length: 27 }, () => ({
-            type: 'minecraft:gray_stained_glass_pane',
-            name: [], // Name as an array of segments
-            lore: [], // Lore as an array of segments
-            function: '',
-            icon: 'gray_stained_glass_pane.png',
-        }));
-    }
-
+    
     // Update the slotSettings for the target slot
     slotSettings[targetSlot].type = itemType;
 
