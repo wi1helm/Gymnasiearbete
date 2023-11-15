@@ -1,17 +1,24 @@
+
+
+
+
 function generateFiles(jsonData) {
     const guiName = document.getElementById("gui_name_input").value 
     if (guiName == ""){
         return
     }
+    
+
+
 
     let additionalFiles = {}; // Store additional files
-    const uniqueVariables = new Set(); // Set to store unique variables
+    let uniqueVariables = new Set(); // Set to store unique variables
     hasVariables = false;
     const itemsToSummon = [];
-    const uniqueItems = new Set();
+    let uniqueItems = new Set();
 
     for (let index = 0; index < 27; index++) {
-        const slot = jsonData.slots[index][`slot:${index}`];
+        const slot = jsonData.pages.main.slots[index][`slot:${index}`];
         const itemName = slot.Item.id;
         uniqueItems.add(itemName);
 
@@ -52,6 +59,9 @@ function generateFiles(jsonData) {
             if (slot.Function) {
                 displayTag.Function = `${slot.Function}`;
             }
+            if (slot.Page) {
+                displayTag.Page = `${slot.Page}`;
+            }
 
             tagParts.push(`display:${JSON.stringify(displayTag)}`);
         }
@@ -71,7 +81,7 @@ function generateFiles(jsonData) {
     const initFunctionContent = `
 scoreboard objectives add loop dummy
 scoreboard objectives add ${guiName}_inv_check dummy
-data modify storage minecraft:${guiName}_used settings set value {"name":"@a","slot":"","id":"","nbt":"","function":"general:boat_shop/no_function"}
+data modify storage minecraft:${guiName}_used settings set value {"name":"@a","slot":"","id":"","nbt":"","function":"general:${guiName}/no_function","page":"no_page"}
 
 # Initialize chest minecart with custom items\n${summonCommand}
 ${dataStorage}
@@ -90,7 +100,8 @@ execute if score .j loop matches ..26 run function general:${guiName}/loop_start
 $item replace entity @e[tag=${guiName}] container.$(slot) with $(id)$(nbt) 1
 $clear $(name) #general:${guiName}_items{${guiName}:1b}
 $execute as $(name) at @s run function $(function)
-data modify storage minecraft:${guiName}_used settings set value {"name":"@a","slot":"","id":"","nbt":"","function":"general:${guiName}/no_function"}`;
+function general:${guiName}/pages/$(page)
+data modify storage minecraft:${guiName}_used settings set value {"name":"@a","slot":"","id":"","nbt":"","function":"general:${guiName}/no_function","page":"general:${guiName}/no_function"}`;
 
     const loadOnceContent = `summon text_display 0 0 0 {Tags:["pnt.name"],UUID:[I;112,110,116,120]}
 scoreboard objectives add pnt.left minecraft.custom:minecraft.leave_game
@@ -218,6 +229,9 @@ function general:${guiName}/init with storage minecraft:${guiName} varibles`;
         'tick.mcfunction': tickContent,
     };
 
+
+    
+    
     // Create a new JSZip instance
     const zip = new JSZip();
 
@@ -233,6 +247,78 @@ function general:${guiName}/init with storage minecraft:${guiName} varibles`;
     for (const fileName in additionalFiles) {
         guiFolder.file(fileName, additionalFiles[fileName]);
     }
+
+    // Create a folder for pages inside the GUI folder
+    const pagesFolder = guiFolder.folder('pages');
+
+    // Check if there are additional pages
+    const additionalPages = Object.keys(jsonData.pages);
+
+    // Generate .mcfunction files for each additional page inside the pages folder
+    additionalPages.forEach(pageName => {
+        const guiName = document.getElementById("gui_name_input").value 
+
+        const itemsToModify = [];
+        for (let index = 0; index < 27; index++) {
+            const slot = jsonData.pages[pageName].slots[index][`slot:${index}`];
+            const itemName = slot.Item.id;
+            uniqueItems.add(itemName);
+            const itemCommand = `{Slot:${index}b,id:"${itemName}",Count:1b,tag:{${guiName}:1b`;
+
+            const tagParts = [];
+
+            if (slot.Name.length > 0 || slot.Lore.length > 0 || slot.Function) {
+                const displayTag = {};
+
+                if (slot.Name.length > 0) {
+                    const nameArray = slot.Name.map(item => {
+                        if (item.text.startsWith("$(") && item.text.endsWith(")")) {
+                            hasVariables = true; // Set the variable flag 
+                            uniqueVariables.add(item.text); // Add unique variable to the set
+                        }
+                        return JSON.stringify(item);
+                    });
+                    displayTag.Name = `[${nameArray.join(",")}]`;
+                }
+
+                if (slot.Lore.length > 0) {
+                    displayTag.Lore = slot.Lore.map(line => {
+
+                        line.forEach(item => {
+                            if (item.text.startsWith("$(") && item.text.endsWith(")")) {
+                                hasVariables = true; // Set the variable flag 
+                                uniqueVariables.add(item.text); // Add unique variable to the set
+                            }
+                        });
+
+                        return JSON.stringify(line);
+                    });
+                }
+                
+                
+
+                if (slot.Function) {
+                    displayTag.Function = `${slot.Function}`;
+                }
+                if (slot.Page) {
+                    displayTag.Page = `${slot.Page}`;
+                }
+
+                tagParts.push(`display:${JSON.stringify(displayTag)}`);
+            }
+
+            const tag = tagParts.join(',');
+            const itemCommandFull = `${itemCommand}${tag ? `,${tag}` : ''}}}`;
+
+            itemsToModify.push(itemCommandFull);
+        }
+
+
+        const pageFunctionContent = `data modify entity @e[tag=${guiName}] Items set value [${itemsToModify}]`;
+        const pageNoContent = "return 0"
+        pagesFolder.file(`${pageName}.mcfunction`, pageFunctionContent);
+        pagesFolder.file(`no_page.mcfunction`, pageNoContent);
+    });
 
     // Generate the JSON file with unique items
     const uniqueItemsArray = Array.from(uniqueItems);
@@ -262,3 +348,64 @@ document.getElementById('download-button').addEventListener('click', () => {
     generateFiles(jsonData); // Pass the JSON data to the generation function
 });
 
+
+function generateItemsArray(slots) {
+    const guiName = document.getElementById("gui_name_input").value 
+
+    const itemsToSummon = [];
+    for (let index = 0; index < 27; index++) {
+        const slot = slots[index][`slot:${index}`];
+        const itemName = slot.Item.id;
+        uniqueItems.add(itemName);
+        const itemCommand = `{Slot:${index}b,id:"${itemName}",Count:1b,tag:{${guiName}:1b`;
+
+        const tagParts = [];
+
+        if (slot.Name.length > 0 || slot.Lore.length > 0 || slot.Function) {
+            const displayTag = {};
+
+            if (slot.Name.length > 0) {
+                const nameArray = slot.Name.map(item => {
+                    if (item.text.startsWith("$(") && item.text.endsWith(")")) {
+                        hasVariables = true; // Set the variable flag 
+                        uniqueVariables.add(item.text); // Add unique variable to the set
+                    }
+                    return JSON.stringify(item);
+                });
+                displayTag.Name = `[${nameArray.join(",")}]`;
+            }
+
+            if (slot.Lore.length > 0) {
+                displayTag.Lore = slot.Lore.map(line => {
+
+                    line.forEach(item => {
+                        if (item.text.startsWith("$(") && item.text.endsWith(")")) {
+                            hasVariables = true; // Set the variable flag 
+                            uniqueVariables.add(item.text); // Add unique variable to the set
+                        }
+                    });
+
+                    return JSON.stringify(line);
+                });
+            }
+            
+            
+
+            if (slot.Function) {
+                displayTag.Function = `${slot.Function}`;
+            }
+            if (slot.Page) {
+                displayTag.Page = `${slot.Page}`;
+            }
+
+            tagParts.push(`display:${JSON.stringify(displayTag)}`);
+        }
+
+        const tag = tagParts.join(',');
+        const itemCommandFull = `${itemCommand}${tag ? `,${tag}` : ''}}}`;
+
+        itemsToSummon.push(itemCommandFull);
+    }
+
+    return itemsToSummon;
+}
