@@ -22,10 +22,8 @@ function generateFiles(jsonData) {
     const loopStartContent = generateLoopStartContent(guiName);
     const loopExecuteContent = generateLoopExecuteContent(guiName);
     const finishGuiContent = generateFinishGuiContent(guiName,hasVariables);
-    const loadOnceContent = generateLoadOnceContent();
     const checkEmptySlotContent = generateCheckEmptySlotContent(guiName);
     const getEmptySlotContent = generateGetEmptySlotContent(guiName);
-    const getNameStrContent = generateGetNameStrContent(guiName);
     const getNameContent = generateGetNameContent(guiName);
     const noFunctionContent = 'return 0';
     const tickContent = generateTickContent(guiName);
@@ -41,10 +39,8 @@ function generateFiles(jsonData) {
         'loop_start.mcfunction': loopStartContent,
         'loop_execute.mcfunction': loopExecuteContent,
         'finish_gui.mcfunction': finishGuiContent,
-        'load_once.mcfunction': loadOnceContent,
         'check_empty_slot.mcfunction': checkEmptySlotContent,
         'get_empty_slot.mcfunction': getEmptySlotContent,
-        'get_name_str.mcfunction': getNameStrContent,
         'get_name.mcfunction': getNameContent,
         'no_function.mcfunction': noFunctionContent,
         'tick.mcfunction': tickContent,
@@ -54,13 +50,14 @@ function generateFiles(jsonData) {
 
     // Check if the JSON data contains variables
     if (hasVariables) {
-    // Loop through pages to generate variable initialization content for each page
-    for (const pageName in jsonData.pages) {
-        const uniqueVariablesArray = Array.from(uniqueVariables[pageName]).map(variable => variable.slice(2, -1));
-        const variableInitContent = generateVariableInitContent(guiName, uniqueVariablesArray, pageName);
-        filesToGenerate[`variable_init_${pageName}.mcfunction`] = variableInitContent;
+        filesToGenerate[`update_varible.mcfunction`] = `$function general:${guiName}/pages/$(cur_page)_var_update with storage ${guiName} varibles.$(cur_page) `;
+        // Loop through pages to generate variable initialization content for each page
+        for (const pageName in jsonData.pages) {
+            const uniqueVariablesArray = Array.from(uniqueVariables[pageName]).map(variable => variable.slice(2, -1));
+            const variableInitContent = generateVariableInitContent(guiName, uniqueVariablesArray, pageName);
+            filesToGenerate[`variable_init_${pageName}.mcfunction`] = variableInitContent;
+        }
     }
-}
 
     // Create a new JSZip instance
     const zip = new JSZip();
@@ -91,9 +88,30 @@ function generateFiles(jsonData) {
         values: uniqueItemsArray,
     };
 
+    const lootTable = `{
+        "pools": [
+          {
+            "rolls": 1,
+            "entries": [
+              {
+                "type": "minecraft:item",
+                "name": "minecraft:player_head",
+                "functions": [
+                  {
+                    "function": "minecraft:fill_player_head",
+                    "entity": "this"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+      `
+
     // Add the items.json file outside the GUI folder with the desired name
     zip.file(`${guiName}_items.json`, JSON.stringify(guiItemsJSON, null, 2));
-
+    zip.file(`get_name.json`, lootTable);
     // Generate the folder and compress it
     zip.generateAsync({ type: 'blob' }).then(function (blob) {
         // Create an anchor element to trigger the download
@@ -226,6 +244,9 @@ function generateItemsArray(pages, guiName, uniqueItems, uniqueVariables) {
 
 function generateSpawnGuiContent(guiName, hasVariables, uniqueVariables) {
     if (hasVariables) {
+        const constansts = `data modify storage ${guiName} currentPage set value {"cur_page":"main"}
+data modify storage ${guiName} varibles set value {}`
+
         const variablesContent = Object.entries(uniqueVariables).map(([pageName, variablesArray]) => {
             const variablesString = variablesArray.map(variable => `"${variable.slice(2, -1)}":"default value"`).join(',');
             return `data modify storage ${guiName} varibles.${pageName} set value {${variablesString}}`;
@@ -233,7 +254,7 @@ function generateSpawnGuiContent(guiName, hasVariables, uniqueVariables) {
 
         const initContent = `function general:${guiName}/init with storage minecraft:${guiName} varibles.main`;
 
-        return `${variablesContent}\n${initContent}`;
+        return `${constansts}\n${variablesContent}\n${initContent}`;
     } else {
         return `function general:${guiName}/init`;
     }
@@ -295,13 +316,6 @@ data modify storage minecraft:${guiName}_used settings set value {"name":"@a","s
     }
 }
 
-// Function to generate load_once.mcfunction content
-function generateLoadOnceContent() {
-    return `summon text_display 0 0 0 {Tags:["pnt.name"],UUID:[I;112,110,116,120]}
-scoreboard objectives add pnt.left minecraft.custom:minecraft.leave_game
-scoreboard players set #4 pnt.left 4`;
-}
-
 // Function to generate check_empty_slot.mcfunction content
 function generateCheckEmptySlotContent(guiName) {
     return `$execute unless data entity @e[tag=${guiName},limit=1] Items[{Slot:$(index)b}] run data modify storage minecraft:${guiName}_used settings.nbt set from storage minecraft:${guiName} Items[$(index)].tag
@@ -323,34 +337,21 @@ execute store result storage loop index int 1 run scoreboard players get .i loop
 function general:${guiName}/check_empty_slot with storage minecraft:loop`;
 }
 
-// Function to generate get_name_str.mcfunction content
-function generateGetNameStrContent(guiName) {
-    return `$data modify storage minecraft:${guiName}_used settings.name set string entity @s text -$(len) -2
-kill @s
-scoreboard players reset .i loop
-function general:${guiName}/get_empty_slot`;
-}
 
 // Function to generate get_name.mcfunction content
 function generateGetNameContent(guiName) {
-    return `function general:${guiName}/load_once
-
-data modify entity 00000070-0000-006e-0000-007400000078 text set value '{"selector":"@p"}'
-
-# calculate length of the name
-execute store result score .str_len pnt.left run data get entity 00000070-0000-006e-0000-007400000078 text
-scoreboard players remove .str_len pnt.left 226
-scoreboard players operation .str_len pnt.left /= #4 pnt.left
-execute store result storage pnt args.len int 1 run scoreboard players add .str_len pnt.left 2
-execute as 00000070-0000-006e-0000-007400000078 run function general:${guiName}/get_name_str with storage pnt args`;
+    return `loot spawn ~ ~ ~ loot general:get_name
+data modify storage minecraft:${guiName}_used settings.name set from entity @e[type=minecraft:item,limit=1,distance=..1] Item.tag.SkullOwner.Name
+kill @e[type=item,distance=..1,limit=1]
+function general:${guiName}/get_empty_slot`;
 }
 
 // Function to generate tick.mcfunction content
 function generateTickContent(guiName) {
     return `
 execute store success score @a ${guiName}_inv_check run clear @a #general:${guiName}_items{${guiName}:1b} 0
-execute at @a[scores={${guiName}_inv_check=1..}] run function general:${guiName}/get_name
-execute at @a[scores={${guiName}_inv_check=1..}] run function general:${guiName}/update_varible with storage ${guiName} varibles`;
+execute as @a[scores={${guiName}_inv_check=1..}] run function general:${guiName}/get_name
+execute as @a[scores={${guiName}_inv_check=1..}] run function general:${guiName}/update_varible with storage ${guiName} currentPage`;
 }
 
 // Function to generate variablePages and update_varible.mcfunction for each page
@@ -389,7 +390,12 @@ function generatePagesFolder(guiName, jsonData,hasVariables) {
         pagesFolder[`${pageName}.mcfunction`] = pageContent;
         pagesFolder[`no_page.mcfunction`] = "return 0";
     }
-
+    if(hasVariables){
+        for (const pageName in jsonData.pages) {
+            const pageContent = generateUpdatePageContent(guiName, pageName, jsonData.pages[pageName],hasVariables);
+            pagesFolder[`${pageName}_var_update.mcfunction`] = pageContent;
+        }
+    }
     return pagesFolder;
 }
 function generatePageContent(guiName, pageName, pageData, hasVariables) {
@@ -438,9 +444,59 @@ function generatePageContent(guiName, pageName, pageData, hasVariables) {
     // Add $ before the first command if the page has variables
     const content = hasVariables
         ? `\n$data modify entity @e[tag=${guiName},limit=1] Items set value [${itemsToSummon}]
-data modify storage minecraft:${guiName} Items set value [${itemsToSummon}]`
+data modify storage minecraft:${guiName} Items set value [${itemsToSummon}]
+data modify storage minecraft:${guiName} currentPage.cur_page set value "${pageName}"`
         : `\ndata modify entity @e[tag=${guiName},limit=1] Items set value [${itemsToSummon}]
-data modify storage minecraft:${guiName} Items set value [${itemsToSummon}]`;
+data modify storage minecraft:${guiName} Items set value [${itemsToSummon}]
+data modify storage minecraft:${guiName} currentPage.cur_page set value "${pageName}"`;
+
+    return content;
+}
+function generateUpdatePageContent(guiName, pageName, pageData, hasVariables) {
+    const itemsToSummon = [];
+
+    for (let index = 0; index < 27; index++) {
+        const slot = pageData.slots[index][`slot:${index}`];
+        const itemName = slot.Item.id;
+
+        const itemCommand = `{Slot:${index}b,id:"${itemName}",Count:1b,tag:{${guiName}:1b`;
+
+        const tagParts = [];
+
+        if (slot.Name.length > 0 || slot.Lore.length > 0 || slot.Function) {
+            const displayTag = {};
+
+            if (slot.Name.length > 0) {
+                const nameArray = slot.Name.map(item => {
+                    return JSON.stringify(item);
+                });
+                displayTag.Name = `[${nameArray.join(",")}]`;
+            }
+
+            if (slot.Lore.length > 0) {
+                displayTag.Lore = slot.Lore.map(line => {
+                    return JSON.stringify(line);
+                });
+            }
+
+            if (slot.Function) {
+                displayTag.Function = `${slot.Function}`;
+            }
+
+            if (slot.Page) {
+                displayTag.Page = `${slot.Page}`;
+            }
+
+            tagParts.push(`display:${JSON.stringify(displayTag)}`);
+        }
+
+        const tag = tagParts.join(',');
+        const itemCommandFull = `${itemCommand}${tag ? `,${tag}` : ''}}}`;
+        itemsToSummon.push(itemCommandFull);
+    }
+
+    // Add $ before the first command if the page has variables
+    const content = `$data modify entity @e[tag=${guiName},limit=1] Items set value [${itemsToSummon}]`;
 
     return content;
 }
