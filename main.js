@@ -443,6 +443,7 @@ function updateJSON() {
 
 // Function to extract name segments from input
 function nameSegmentsFromInput(htmlString) {
+    console.log(htmlString)
 
     const variableRegex = /\$\((.*?)\)/g;
     const variables = [];
@@ -544,7 +545,7 @@ function nameSegmentsFromInput(htmlString) {
         }
     )
     
-    
+    console.log(result)
     return result
 }
 
